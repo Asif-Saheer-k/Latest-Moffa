@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "image": "https://res.cloudinary.com/dq06v1dnz/image/upload/v1664360338/bottom_eitpyz.jpg",
+    "title": "Best Seller",
+    "subtitle": "Choose Your Products Here",
+    "link": "/banner-product/best",
+    "textAlign": "right"
+  },
+  {
+    "id": 2,
+    "image": "https://res.cloudinary.com/dq06v1dnz/image/upload/v1664360463/bottombanner_weopgt.jpg",
+    "title": "New Products",
+    "subtitle": "Choose Your Products Here",
+    "link": "/banner-product/new",
+    "textAlign": "left"
+  }
+]

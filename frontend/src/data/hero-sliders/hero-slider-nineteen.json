@@ -1,0 +1,17 @@
+[
+  {
+    "id": 2345678902345678,
+    "title": "Enjoy This Offer Today",
+    "subtitle": "New Collection <br /> Sale 40%",
+    "image": "http://res.cloudinary.com/www-menscarts-shop/image/upload/v1661430385/BANNER_B_1_j7i6yo.jpg",
+    "url": "/shop-grid-standard"
+  },
+  {
+    "id": 23456789234567890,
+    "title": "Enjoy This Offer Today",
+    "subtitle": "New Collection <br /> Sale 20%",
+    "image": "http://res.cloudinary.com/www-menscarts-shop/image/upload/v1661430385/BANNER_B_1_j7i6yo.jpg",
+    "url": "/shop-grid-standard"
+  }
+
+]

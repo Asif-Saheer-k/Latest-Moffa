@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "image": "https://i.im.ge/2022/08/20/OItcWX.BANNER-C-2.jpg",
+    "title": "New Arrivals",
+    "subtitle": "Choose your products here",
+    "link": "/banner-product/new"
+  },
+  {
+    "id": 2,
+    "image": "https://i.im.ge/2022/08/20/OItVsD.GFGBHB.jpg",
+    "title": "Featured Products",
+    "subtitle": "Choose your products here",
+    "link": "/banner-product/featured"
+  },
+  {
+    "id": 3,
+    "image": "https://i.im.ge/2022/08/20/OItkzC.ETYYTH.jpg",
+    "title": "Best Seller",
+    "subtitle": "Choose your products here",
+    "link": "/banner-product/best"
+  }
+]
