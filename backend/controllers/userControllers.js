@@ -1828,6 +1828,46 @@ const deleteuserCart = asyncHandler(async (req, res) => {
     res.status(500).json("Somthing went wrong");
   }
 });
+//amount add to wallet through razorpay
+const AddAmountToWalletRazorpay = asyncHandler(async (req, res) => {
+  const amount = req.body.Amount;
+  console.log(amount);
+  try {
+    const options = {
+      amount: amount * 100, // amount in smallest currency unit
+      currency: "INR",
+      receipt: "receipt_order_74394",
+    };
+    const order = await razorpay.orders.create(options);
+    if (!order) return res.status(500).send("Some error occured");
+    console.log(order);
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//add amount to wallet
+const AddAmountToWallet = asyncHandler(async (req, res) => {
+  const ID = req.body.id;
+  const amount = req.body.Amount;
+
+  const updatewallet = await db
+    .get()
+    .collection(collection.WHOLESALER_COLLECTION)
+    .updateOne(
+      {
+        CUST_ID: parseInt(ID),
+      },
+      { $inc: { wallet: parseInt(amount) } }
+    );
+  console.log(updatewallet);
+  if (updatewallet) {
+    res.status(200).json("Success");
+  } else {
+    res.status(500).json("Somthing Went wrong");
+  }
+});
 module.exports = {
   addToCart,
   registerUser,
@@ -1855,4 +1895,6 @@ module.exports = {
   rezorpayOrder,
   createOrderObjct,
   deleteuserCart,
+  AddAmountToWalletRazorpay,
+  AddAmountToWallet,
 };
