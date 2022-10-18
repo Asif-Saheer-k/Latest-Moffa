@@ -46,7 +46,7 @@ const HomeFurnitureThree = () => {
     const today = new Date().toLocaleDateString();
     const dateObj = { date: today };
     getDeals(dateObj);
-  }, []);  
+  }, []);
   useEffect(() => {
     (async function () {
       try {
@@ -86,8 +86,9 @@ const HomeFurnitureThree = () => {
         <title>Moffa | Home</title>
         <meta
           name="description"
-          content="Furniture home of flone react minimalist eCommerce template."
+          content="Moffa Clothing Home page"
         />
+        <meta name="author" content="Asif Saheer k" />
       </MetaTags>
       <LayoutOne
         headerContainerClass="container-fluid"

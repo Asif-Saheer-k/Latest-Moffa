@@ -274,8 +274,6 @@ const MyAccount = ({ location, user }) => {
   //   }
   // };
 
-
-
   //add amount through razorpay
   const AddAmountWallet = async () => {
     const id = user.CUST_ID;
@@ -287,7 +285,7 @@ const MyAccount = ({ location, user }) => {
         },
       };
       const { data } = await axios.post(
-        "/api/user/add-amount-razorpay", 
+        "/api/user/add-amount-razorpay",
         { Amount },
         config
       );

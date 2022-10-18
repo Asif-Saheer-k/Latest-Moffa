@@ -571,7 +571,6 @@ const MonthlySalses = asyncHandler(async (req, res) => {
       },
     ])
     .toArray();
-  console.log(MonthSale, "j");
   if (MonthSale) {
     res.status(200).json(MonthSale);
   } else {
@@ -704,7 +703,6 @@ const viewALLDispatchOrders = asyncHandler(async (req, res) => {
 const updatedWallet = asyncHandler(async (req, res) => {
   const ID = req.body.id;
   const amount = req.body.amoun;
-  console.log(req.body, "kkkkk");
   const updatewallet = await db
     .get()
     .collection(collection.WHOLESALER_COLLECTION)
@@ -714,7 +712,6 @@ const updatedWallet = asyncHandler(async (req, res) => {
       },
       { $set: { wallet: parseInt(amount) } }
     );
-console.log(updatewallet);
   if (updatewallet) {
     res.status(200).json("Success");
   } else {

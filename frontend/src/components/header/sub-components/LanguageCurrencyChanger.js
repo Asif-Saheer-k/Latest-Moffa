@@ -76,7 +76,7 @@ const LanguageCurrencyChanger = ({
         </div>
       </div> */}  
       <div className="same-language-currency">
-        <p>Call Us 7034515384</p>  
+        <p>Call Us 8848572454</p>  
       </div>
     </div>
   );

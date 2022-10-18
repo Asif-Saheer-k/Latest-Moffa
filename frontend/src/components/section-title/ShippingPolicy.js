@@ -27,7 +27,7 @@ const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
             orders will be to the address provided by the buyer. Delivery of our
             services will be confirmed on your mail ID as specified during
             registration. For any issues in utilizing our services you may
-            contact our helpdesk on 7034515384 or asifsaheer7034@gmail.com
+            contact our helpdesk on thepaaki.aws@gmail.com
           </p>
         </div>
       </div>
