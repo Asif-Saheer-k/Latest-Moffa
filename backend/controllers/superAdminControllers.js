@@ -237,9 +237,9 @@ const verifyWholesalers = asyncHandler((req, res) => {
           const phoneNumber = wholeSaler.phone;
           const message = await verification.SendMessage(
             phoneNumber,
-            "Admin verified your deatails. happy shopping" 
+            "Admin verified your deatails. happy shopping"
           );
- 
+
           res.status(200).json({ success: true });
         } else {
           res.status(500).json({ error: "Somthing went wrong ...." });
@@ -700,6 +700,27 @@ const viewALLDispatchOrders = asyncHandler(async (req, res) => {
     res.status(204).json("No Records");
   }
 });
+//updated wholsaler wallet function
+const updatedWallet = asyncHandler(async (req, res) => {
+  const ID = req.body.id;
+  const amount = req.body.amoun;
+  console.log(req.body, "kkkkk");
+  const updatewallet = await db
+    .get()
+    .collection(collection.WHOLESALER_COLLECTION)
+    .updateOne(
+      {
+        _id: objectId(ID),
+      },
+      { $set: { wallet: parseInt(amount) } }
+    );
+console.log(updatewallet);
+  if (updatewallet) {
+    res.status(200).json("Success");
+  } else {
+    res.status(500).json("Somthing Went wrong");
+  }
+});
 
 module.exports = {
   verifyAdmin,
@@ -735,6 +756,5 @@ module.exports = {
   DeleteStock,
   DispatchOrder,
   viewALLDispatchOrders,
-
+  updatedWallet,
 };
-    

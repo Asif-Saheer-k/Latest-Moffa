@@ -38,6 +38,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [cart, setCart] = useState([]);
   const [payment, setPayment] = useState("paytm");
   const [orderObject, setorderObject] = useState({});
+  const [admin, setAdmin] = useState();
 
   const { pathname } = location;
   const { addToast } = useToasts();
@@ -501,7 +502,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   );
                   const { ammount, id: order_id, currency } = data;
                   const options = {
-                    key:process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
+                    key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
                     amount: ammount,
                     currency: currency,
                     name: "MOFFA CLOTHING.",
@@ -1232,7 +1233,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                   </ul>
                                   <ul>
                                     <li className="your-order-shipping">
-                                      Razprpay
+                                      Razorpay
                                     </li>
                                     <li>
                                       <FormControlLabel
