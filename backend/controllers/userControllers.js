@@ -1274,7 +1274,7 @@ const TakeUserDeatails = asyncHandler(async (req, res) => {
     const userDeatails = await db
       .get()
       .collection(collection.USER_COLLECTION)
-      .findOne({ phone: Deatails.phones });
+      .findOne({ CUST_ID:parseInt(Deatails.id)});
     if (userDeatails) {
       const obj = {
         name: userDeatails.name,
@@ -1292,7 +1292,7 @@ const TakeUserDeatails = asyncHandler(async (req, res) => {
     const wholesalerDeatails = await db
       .get()
       .collection(collection.WHOLESALER_COLLECTION)
-      .findOne({ phone: Deatails.phones });
+      .findOne({ CUST_ID:parseInt(Deatails.id)});
     if (wholesalerDeatails) {
       const obj = {
         name: wholesalerDeatails.name,

@@ -95,6 +95,7 @@ const ProductImageGallery = ({
   product.Deal.map((items) => {
     if (items.date == date) {
       offer = items.offer;
+      console.log(offer, "FDCVVVVBBBBB");
     }
   });
 
@@ -105,8 +106,6 @@ const ProductImageGallery = ({
     selectedProductColor,
     selectedProductSize
   ) => {
- 
-
     addToCart(
       product,
       addToast,
@@ -114,13 +113,13 @@ const ProductImageGallery = ({
       selectedProductColor,
       selectedProductSize
     );
-    
+
     if (user) {
       const userId = user.CUST_ID;
       const ProId = product.id;
       const color = selectedProductColor;
       const size = selectedProductSize;
-      console.log(size,color);
+      console.log(size, color);
       try {
         const { data } = await axios.post("/api/user/add-to-cart", {
           userId,
@@ -140,36 +139,28 @@ const ProductImageGallery = ({
             <div className="product-large-image-wrapper">
               {product.discount || product.new ? (
                 <div className="product-img-badges">
-                  {wholesaler ? (
-                    ""
-                  ) : (
-                    <>
-                      {offer ? (
-                        <span className="pink">-{offer}%</span>
-                      ) : (
-                        <>
-                          {product.discount ? (
-                            <span className="pink">-{product.discount}%</span>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                      {offer ? (
-                        <>
-                          <span className="purple">Deal</span>
-                        </>
-                      ) : (
-                        <>
-                          {product.new ? (
-                            <span className="purple">New</span>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
+                               {wholesaler ? (
+                  ""
+                ) :  (
+                  <>
+                    {product.discount ? (
+                      <span className="pink">-{product.discount}%</span>
+                    ) : (
+                      <>
+                        {offer ? <span className="pink">-{offer}%</span> : ""}
+                      </>
+                    )}
+                    {offer ? (
+                      <>
+                        <span className="purple text-warnin">Deal</span>
+                      </>
+                    ) : (
+                      <>
+                        {product.new ? <span className="purple">New</span> : ""}
+                      </>
+                    )}
+                  </>
+                )}
                 </div>
               ) : (
                 ""

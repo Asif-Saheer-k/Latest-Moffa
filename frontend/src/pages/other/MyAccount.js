@@ -65,7 +65,7 @@ const MyAccount = ({ location, user }) => {
       history.push("/login-register");
     } else {
       const users = user.user;
-      const phones = user.phone;
+      const id = user.CUST_ID;
 
       try {
         const config = {
@@ -76,7 +76,7 @@ const MyAccount = ({ location, user }) => {
         };
         const { data } = await axios.post(
           "/api/user/user-deatails-get",
-          { users, phones },
+          { users, id},
           config
         );
         setAddress(data?.Address);
@@ -276,65 +276,72 @@ const MyAccount = ({ location, user }) => {
 
   //add amount through razorpay
   const AddAmountWallet = async () => {
-    const id = user.CUST_ID;
-    try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          "auth-token": user.token,
-        },
-      };
-      const { data } = await axios.post(
-        "/api/user/add-amount-razorpay",
-        { Amount },
-        config
-      );
-      const { ammount, id: order_id, currency } = data;
-      const options = {
-        key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
-        amount: ammount,
-        currency: currency,
-        name: "MOFFA CLOTHING.",
-        description: "Transaction",
-        image: image,
-        order_id: order_id,
-        handler: async function (response) {
-          const datas = {
-            orderCreationId: order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-          };
-          try {
-            const result = await axios.post("api/user/add-amount-to-wallet", {
-              Amount,
-              id,
-              datas,
-            });
-            setLoading(true);
-            setLoading(false);
-            handleClose();
-            history.push("/my-account");
-          } catch (error) {
-            history.push("/error");
-          }
-        },
-        prefill: {
-          name: user.name,
-          email: user.email,
-          contact: user.phone,
-        },
-        notes: {
-          address: "fsf",
-        },
-        theme: {
-          color: "#FFFFE3",
-        },
-      };
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-    } catch (error) {
-      console.log(error);
+    if (Amount >= 100 && Amount <= 20000) {
+      const id = user.CUST_ID;
+      try {
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            "auth-token": user.token,
+          },
+        };
+        const { data } = await axios.post(
+          "/api/user/add-amount-razorpay",
+          { Amount },
+          config
+        );
+        const { ammount, id: order_id, currency } = data;
+        const options = {
+          key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
+          amount: ammount,
+          currency: currency,
+          name: "MOFFA CLOTHING.",
+          description: "Transaction",
+          image: image,
+          order_id: order_id,
+          handler: async function (response) {
+            const datas = {
+              orderCreationId: order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+            };
+            try {
+              const result = await axios.post("api/user/add-amount-to-wallet", {
+                Amount,
+                id,
+                datas,
+              });
+              setLoading(true);
+              setLoading(false);
+              handleClose();
+              history.push("/my-account");
+            } catch (error) {
+              history.push("/error");
+            }
+          },
+          prefill: {
+            name: user.name,
+            email: user.email,
+            contact: user.phone,
+          },
+          notes: {
+            address: "fsf",
+          },
+          theme: {
+            color: "#FFFFE3",
+          },
+        };
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      addToast("Please Enter Valid Amount", {
+        appearance: "error",
+        autoDismiss: true,
+      });
     }
   };
 

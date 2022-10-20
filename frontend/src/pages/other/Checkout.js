@@ -181,7 +181,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
           var users = user;
           if (users.user) {
             const OderProducts = cartItems;
-            const totamAmount = cartTotalPrice;
+            const totamAmount = cartTotalPrice.toFixed(0);
             const DeliveyCharge = deliveryCharge;
             const DeliveryType = Post;
             const CUST_ID = users.CUST_ID;
@@ -241,7 +241,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             }
           } else {
             const OderProducts = cartItems;
-            const totamAmount = cartTotalPrice;
+            const totamAmount = cartTotalPrice.toFixed(0);
             const DeliveyCharge = deliveryCharge;
             const DeliveryType = Post;
             const CUST_ID = users.CUST_ID;
@@ -316,10 +316,11 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             }
           }
         } else {
+    
           var users = user;
           if (users.user) {
             const OderProducts = cartItems;
-            const totamAmount = cartTotalPrice;
+            const totamAmount = cartTotalPrice.toFixed(0);
             const DeliveyCharge = deliveryCharge;
             const DeliveryType = Post;
             const CUST_ID = users.CUST_ID;
@@ -404,9 +405,9 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                       }
                     },
                     prefill: {
-                      name: orderObject.name,
-                      email: orderObject.email,
-                      contact: orderObject.phone,
+                      name: user.name,
+                      email: user.email,
+                      contact:user.phone,
                     },
                     notes: {
                       address: orderObject.address,
@@ -438,7 +439,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             }
           } else {
             const OderProducts = cartItems;
-            const totamAmount = cartTotalPrice;
+            const totamAmount = cartTotalPrice.toFixed(0);
             const DeliveyCharge = deliveryCharge;
             const DeliveryType = Post;
             const CUST_ID = users.CUST_ID;
@@ -527,9 +528,9 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                       }
                     },
                     prefill: {
-                      name: orderObject.name,
-                      email: orderObject.email,
-                      contact: orderObject.phone,
+                      name: user.name,
+                      email: user.email,
+                      contact:user.phone,
                     },
                     notes: {
                       address: orderObject.address,

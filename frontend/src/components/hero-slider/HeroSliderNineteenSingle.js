@@ -22,7 +22,7 @@ const HeroSliderNineteenSingle = ({ data, sliderClass }) => {
               <div className="slider-btn slider-btn--style2 btn-hover">
                 <Link
                   className="animated rounden-btn" 
-                  to={`${process.env.PUBLIC_URL}/product/${data.url}`} style={{color:"#fffdd0"}}
+                  to={`${process.env.PUBLIC_URL}/product/${data.url}`} style={{color:"#fffdd0",borderColor:"#fffdd0"}}
                 >
                   SHOP NOW
                 </Link>

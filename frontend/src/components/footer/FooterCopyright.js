@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
-import image from "../../assets/img/logo/MOFFA.png"
+import image from "../../assets/img/logo/PAKK.png";
 
 const FooterCopyright = ({ footerLogo, spaceBottomClass, colorClass }) => {
   return (
@@ -29,7 +29,7 @@ const FooterCopyright = ({ footerLogo, spaceBottomClass, colorClass }) => {
 FooterCopyright.propTypes = {
   footerLogo: PropTypes.string,
   spaceBottomClass: PropTypes.string,
-  colorClass: PropTypes.string
+  colorClass: PropTypes.string,
 };
 
 export default FooterCopyright;

@@ -27,9 +27,12 @@ const ProductGridSingleTwo = ({
   const history = useHistory();
   const date = new Date().toLocaleDateString();
   var offer = null;
+  console.log(product,"DCDXXXX");
   product.Deal.map((items) => {
+    console.log(items.date,date);
     if (items.date == date) {
       offer = items.offer;
+      console.log(offer,"FDCCCCCCCCC");
     }
   });
   var finalProductPrice;

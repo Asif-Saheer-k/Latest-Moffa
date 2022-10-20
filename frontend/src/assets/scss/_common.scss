@@ -661,9 +661,9 @@ a:hover {
 }
 
 .pt-100 {
-  padding-top: 100px;
+  padding-top: 0px;
   @media #{$xs-layout} {
-    padding-top: 60px;
+    padding-top: 0px;
   }
 }
 
