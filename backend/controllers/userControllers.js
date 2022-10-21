@@ -421,6 +421,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
   const user = req.body.user;
   const DeliveyCharge = req.body.DeliveyCharge;
   const DeliveryType = req.body.DeliveryType;
+  const payment_type=req.body.payment_type
   var Role = "user";
   if (!user) {
     Role = "wholesaler";
@@ -513,6 +514,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
       DeliveyCharge: DeliveyCharge,
       DeliveryType: DeliveryType,
       wallet: Applywallet,
+      payment_type:payment_type,
       status: "Pending",
       Payment: "Pending",
     };
@@ -529,6 +531,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
       role: Role,
       DeliveyCharge: DeliveyCharge,
       DeliveryType: DeliveryType,
+      payment_type:payment_type,
       status: "Pending",
       Payment: "Pending",
     };
@@ -1567,6 +1570,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
   const user = req.body.user;
   const DeliveyCharge = req.body.DeliveyCharge;
   const DeliveryType = req.body.DeliveryType;
+  const payment_type=req.body.payment_type
   var Role = "user";
   if (!user) {
     Role = "wholesaler";
@@ -1654,6 +1658,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       DeliveyCharge: DeliveyCharge,
       DeliveryType: DeliveryType,
       wallet: Applywallet,
+      payment_type:payment_type,
       status: "Pending",
       Payment: "Pending",
     };

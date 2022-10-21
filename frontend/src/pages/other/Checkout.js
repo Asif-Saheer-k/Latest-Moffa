@@ -196,6 +196,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const message = data?.message;
             const State = state;
             const user = true;
+            const payment_type="paytm"
             try {
               const config = {
                 headers: {
@@ -222,6 +223,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   message,
                   State,
                   user,
+                  payment_type
                 },
                 config
               );
@@ -256,6 +258,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const message = data?.message;
             const State = state;
             const user = false;
+            const payment_type="paytm"
             var Applywallet = 0;
             if (walletApplyAmount) {
               Applywallet = walletApplyAmount;
@@ -287,6 +290,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   State,
                   user,
                   Applywallet,
+                  payment_type
                 },
                 config
               );
@@ -335,6 +339,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const message = data?.message;
             const State = state;
             const user = true;
+            const payment_type="razorpay"
             try {
               const config = {
                 headers: {
@@ -361,6 +366,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   message,
                   State,
                   user,
+                  payment_type
                 },
                 config
               );
@@ -454,6 +460,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const message = data?.message;
             const State = state;
             const user = false;
+            const payment_type="razorpay"
             var Applywallet = 0;
             if (walletApplyAmount) {
               Applywallet = walletApplyAmount;
@@ -485,6 +492,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   State,
                   user,
                   Applywallet,
+                  payment_type
                 },
                 config
               );
@@ -596,7 +604,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   useEffect(async () => {
     if (user) {
       const users = user.user;
-      const phones = user.phone;
+      const id = user.CUST_ID;
       try {
         const config = {
           headers: {
@@ -606,7 +614,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         };
         const { data } = await axios.post(
           "/api/user/user-deatails-get",
-          { users, phones },
+          { users, id },
           config
         );
 

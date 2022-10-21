@@ -27,12 +27,10 @@ const ProductGridSingleTwo = ({
   const history = useHistory();
   const date = new Date().toLocaleDateString();
   var offer = null;
-  console.log(product,"DCDXXXX");
   product.Deal.map((items) => {
     console.log(items.date,date);
     if (items.date == date) {
       offer = items.offer;
-      console.log(offer,"FDCCCCCCCCC");
     }
   });
   var finalProductPrice;
@@ -69,7 +67,7 @@ const ProductGridSingleTwo = ({
           } ${colorClass ? colorClass : ""} `}
         >
           <div className="product-img">
-            <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+            <Link onClick={singlePage}>
               <img className="default-img"  src={product.image[0].url} alt="" />
               {product.image.length > 1 ? (
                 <img className="hover-img" src={product.image[1].url} alt="" />
