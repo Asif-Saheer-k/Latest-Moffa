@@ -715,8 +715,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     }
   };
 
-  // razorpay integration
-  async function displayRazorpay() {}
+
 
   return (
     <Fragment>

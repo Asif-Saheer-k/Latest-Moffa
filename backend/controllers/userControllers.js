@@ -421,7 +421,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
   const user = req.body.user;
   const DeliveyCharge = req.body.DeliveyCharge;
   const DeliveryType = req.body.DeliveryType;
-  const payment_type=req.body.payment_type
+  const payment_type = req.body.payment_type;
   var Role = "user";
   if (!user) {
     Role = "wholesaler";
@@ -514,7 +514,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
       DeliveyCharge: DeliveyCharge,
       DeliveryType: DeliveryType,
       wallet: Applywallet,
-      payment_type:payment_type,
+      payment_type: payment_type,
       status: "Pending",
       Payment: "Pending",
     };
@@ -531,7 +531,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
       role: Role,
       DeliveyCharge: DeliveyCharge,
       DeliveryType: DeliveryType,
-      payment_type:payment_type,
+      payment_type: payment_type,
       status: "Pending",
       Payment: "Pending",
     };
@@ -1277,7 +1277,7 @@ const TakeUserDeatails = asyncHandler(async (req, res) => {
     const userDeatails = await db
       .get()
       .collection(collection.USER_COLLECTION)
-      .findOne({ CUST_ID:parseInt(Deatails.id)});
+      .findOne({ CUST_ID: parseInt(Deatails.id) });
     if (userDeatails) {
       const obj = {
         name: userDeatails.name,
@@ -1295,7 +1295,7 @@ const TakeUserDeatails = asyncHandler(async (req, res) => {
     const wholesalerDeatails = await db
       .get()
       .collection(collection.WHOLESALER_COLLECTION)
-      .findOne({ CUST_ID:parseInt(Deatails.id)});
+      .findOne({ CUST_ID: parseInt(Deatails.id) });
     if (wholesalerDeatails) {
       const obj = {
         name: wholesalerDeatails.name,
@@ -1570,7 +1570,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
   const user = req.body.user;
   const DeliveyCharge = req.body.DeliveyCharge;
   const DeliveryType = req.body.DeliveryType;
-  const payment_type=req.body.payment_type
+  const payment_type = req.body.payment_type;
   var Role = "user";
   if (!user) {
     Role = "wholesaler";
@@ -1597,15 +1597,17 @@ const createOrderObjct = asyncHandler(async (req, res) => {
     .get()
     .collection(collection.USER_COLLECTION)
     .updateOne({ CUST_ID: ID }, { $set: { Address: address } });
-  await db
-    .get()
-    .collection(collection.WHOLESALER_COLLECTION)
-    .updateOne(
-      { CUST_ID: ID },
-      {
-        $set: { Address: address },
-      }
-    );
+  if (!addAddress) {
+    await db
+      .get()
+      .collection(collection.WHOLESALER_COLLECTION)
+      .updateOne(
+        { CUST_ID: ID },
+        {
+          $set: { Address: address },
+        }
+      );
+  }
   //address storing
   req.session.Address = address;
   //order product storing in seesion
@@ -1658,7 +1660,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       DeliveyCharge: DeliveyCharge,
       DeliveryType: DeliveryType,
       wallet: Applywallet,
-      payment_type:payment_type,
+      payment_type: payment_type,
       status: "Pending",
       Payment: "Pending",
     };
