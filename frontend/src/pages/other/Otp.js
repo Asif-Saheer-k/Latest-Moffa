@@ -41,7 +41,7 @@ const LoginRegister = ({ location, user }) => {
       try {
         const { data } = await axios.get("/api/user/resent-otp");
 
-        addToast("Successfuly Sented", {
+        addToast("Successfuly Sent", {
           appearance: "success",
           autoDismiss: true,
         });
@@ -54,7 +54,7 @@ const LoginRegister = ({ location, user }) => {
     } else {
       try {
         const { data } = await axios.post("/api/user/otpLogin", { phone });
-        addToast("Successfuly Sented", {
+        addToast("Successfuly Sent", {
           appearance: "success",
           autoDismiss: true,
         });
@@ -79,7 +79,7 @@ const LoginRegister = ({ location, user }) => {
         );
         store.dispatch(fetchUser(data));
         window.location.reload(false);
-        addToast("Successfuly Logined", {
+        addToast("logged in successfully", {
           appearance: "success",
           autoDismiss: true,
         });

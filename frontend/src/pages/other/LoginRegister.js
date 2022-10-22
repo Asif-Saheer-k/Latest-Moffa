@@ -78,7 +78,7 @@ const LoginRegister = ({ location, user, addToCart }) => {
         composeWithDevTools(applyMiddleware(thunk, save()))
       );
       store.dispatch(fetchUser(data));
-      addToast("Successfuly logined", {
+      addToast("logged in successfully", {
         appearance: "success",
         autoDismiss: true,
       });
