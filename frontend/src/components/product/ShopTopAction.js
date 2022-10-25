@@ -1,20 +1,23 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { setActiveLayout } from "../../helpers/product";
+import ShopSearch from "../../components/product/ShopSearch";
 
 const ShopTopAction = ({
   getLayout,
   getFilterSortParams,
   productCount,
-  sortedProductCount
+  sortedProductCount,
+  getSortParams
 }) => {
 
   return (
     <div className="shop-top-bar mb-35">
+      <ShopSearch getSortParams={getSortParams}/>
       <div className="select-shoing-wrap">
         <div className="shop-select">
           <select
-            onChange={e => getFilterSortParams("filterSort", e.target.value)}
+            onChange={e => getFilterSortParams("filterSort",e.target.value)}
           >
             <option value="default">Default</option>
             <option value="priceHighToLow">Price - High to Low</option>
@@ -25,7 +28,7 @@ const ShopTopAction = ({
           Showing {sortedProductCount} of {productCount} result
         </p>
       </div>
- 
+     
       <div className="shop-tab">
         <button
           onClick={e => {
@@ -35,22 +38,22 @@ const ShopTopAction = ({
         >
           <i className="fa fa-th-large" />
         </button>
-        <button
+        {/* <button
           onClick={e => {
             getLayout("grid three-column");
             setActiveLayout(e);
           }}
         > 
           <i className="fa fa-th" />
-        </button>
-        {/* <button
+        </button> */}
+        <button
           onClick={e => {
             getLayout("list");
             setActiveLayout(e);
           }}
         >
           <i className="fa fa-list-ul" />
-        </button> */}
+        </button>
       </div>
     </div>
   );
@@ -60,7 +63,8 @@ ShopTopAction.propTypes = {
   getFilterSortParams: PropTypes.func,
   getLayout: PropTypes.func,
   productCount: PropTypes.number,
-  sortedProductCount: PropTypes.number
+  sortedProductCount: PropTypes.number,
+  getSortParams:PropTypes.func
 };
 
 export default ShopTopAction;

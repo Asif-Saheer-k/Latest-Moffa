@@ -5,6 +5,7 @@ import { getProductCartQuantity } from "../../helpers/product";
 import { Modal } from "react-bootstrap";
 import Rating from "./sub-components/ProductRating";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function ProductModal(props) {
   const [colorImage, setColorImage] = useState(null);
@@ -88,10 +89,21 @@ function ProductModal(props) {
     ),
   };
 
+  const navigate = useHistory();
   const setImage = async (url) => {
     setColorImage(url);
   };
 
+  const SingelProductOreder = () => {
+    addToCart(
+      product,
+      addToast,
+      quantityCount,
+      selectedProductColor,
+      selectedProductSize
+    );
+    navigate.push("/checkout");
+  };
   return (
     <Fragment>
       <Modal
@@ -107,24 +119,32 @@ function ProductModal(props) {
               <div className="product-large-image-wrapper">
                 {colorImage !== null ? (
                   <div className="single-image">
-                  <img src={colorImage} className="img-fluid" alt="" />
+                    <img src={colorImage} className="img-fluid" alt="" />
                   </div>
-                )
-                  :
-                <Swiper {...gallerySwiperParams}>
-                  {product.image.map((single, key) => {
-                    return (
-                      <div key={key}>
-                        <div className="single-image">
-                          <img src={single.url} className="img-fluid" alt="" />
+                ) : (
+                  <Swiper {...gallerySwiperParams}>
+                    {product.image.map((single, key) => {
+                      return (
+                        <div key={key}>
+                          <div className="single-image">
+                            <img
+                              src={single.url}
+                              className="img-fluid"
+                              alt=""
+                            />
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </Swiper>
-}
+                      );
+                    })}
+                  </Swiper>
+                )}
               </div>
-              <div className="product-small-image-wrapper mt-15" onClick={()=>{setColorImage(null)}}>
+              <div
+                className="product-small-image-wrapper mt-15"
+                onClick={() => {
+                  setColorImage(null);
+                }}
+              >
                 <Swiper {...thumbnailSwiperParams}>
                   {product.image &&
                     product.image.map((single, key) => {
@@ -176,7 +196,8 @@ function ProductModal(props) {
                       <div className="pro-details-color-content">
                         {product.variation.map((single, key) => {
                           return (
-                            <label style={{backgroundColor:single.color}}
+                            <label
+                              style={{ backgroundColor: single.color }}
                               className={`pro-details-color-content--single ${single.color}`}
                               key={key}
                               onClick={() => {
@@ -283,12 +304,13 @@ function ProductModal(props) {
                         onClick={() =>
                           setQuantityCount(
                             quantityCount < productStock - productCartQty
+                            && quantityCount < 5
                               ? quantityCount + 1
                               : quantityCount
                           )
                         }
                         className="inc qtybutton"
-                      >
+                      > 
                         +
                       </button>
                     </div>
@@ -313,6 +335,21 @@ function ProductModal(props) {
                         <button disabled>Out of Stock</button>
                       )}
                     </div>
+                    {productStock > 0 && (
+                      <div className="pro-details-cart btn-hover">
+                        {productStock && productStock > 0 ? (
+                          <button
+                            onClick={SingelProductOreder}
+                            disabled={productCartQty >= productStock}
+                          >
+                            {" "}
+                            BUY NOW{" "}
+                          </button>
+                        ) : (
+                          <button disabled>Out of Stock</button>
+                        )}
+                      </div>
+                    )}
                     <div className="pro-details-wishlist">
                       <button
                         className={wishlistItem !== undefined ? "active" : ""}
@@ -344,11 +381,11 @@ function ProductModal(props) {
                   </div>
                 )}
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </Modal>
-    </Fragment>  
+    </Fragment>
   );
 }
 

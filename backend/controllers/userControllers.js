@@ -101,13 +101,13 @@ const Phoneverification = asyncHandler(async (req, res) => {
 
 //login user
 const loginUser = asyncHandler(async (req, res) => {
-  const Email = req.body.email;
+  const Phone = req.body.phone;
   const Password = req.body.password;
   //check email in database
   const userDeatails = await db
     .get()
     .collection(collection.USER_COLLECTION)
-    .findOne({ email: Email });
+    .findOne({ phone: Phone });
   if (userDeatails) {
     //compate entered password and database password
     bcrypt.compare(Password, userDeatails.password).then(async (status) => {
@@ -170,11 +170,12 @@ const loginUser = asyncHandler(async (req, res) => {
       }
     });
   } else {
+    console.log(Phone);
     const Wholesaler = await db
       .get()
       .collection(collection.WHOLESALER_COLLECTION)
-      .findOne({ email: Email });
-
+      .findOne({phone:Phone});
+     
     if (Wholesaler) {
       bcrypt.compare(Password, Wholesaler.password).then(async (status) => {
         if (status) {
@@ -237,7 +238,7 @@ const loginUser = asyncHandler(async (req, res) => {
         }
       });
     } else {
-      res.status(401).json("Invalid Email Address");
+      res.status(401).json("Invalid Phone Number");
     }
   }
 });

@@ -19,6 +19,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import axios from "axios";
 import { useToasts } from "react-toast-notifications";
 import { useParams } from "react-router-dom";
+import ShopSearch from "../../components/product/ShopSearch";
 
 const ShopGridStandard = ({ location, product, user }) => {
   const [layout, setLayout] = useState("grid two-column");
@@ -56,7 +57,7 @@ const ShopGridStandard = ({ location, product, user }) => {
           setProducts(result);
         }
 
-        store.dispatch(fetchProducts(data)); 
+        store.dispatch(fetchProducts(data));
       } catch (error) {
         addToast("Somthing Went Wrong", {
           appearance: "success",
@@ -124,13 +125,16 @@ const ShopGridStandard = ({ location, product, user }) => {
                   sideSpaceClass="mr-30"
                 />
               </div>
+
               <div className="col-lg-9 order-1 order-lg-2">
                 {/* shop topbar default */}
+           
                 <ShopTopbar
                   getLayout={getLayout}
                   getFilterSortParams={getFilterSortParams}
                   productCount={products.length}
                   sortedProductCount={currentData.length}
+                  getSortParams={getSortParams}
                 />
 
                 {/* shop page content default */}

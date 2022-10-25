@@ -36,27 +36,29 @@ const Product = ({ location, product }) => {
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
-      {product &&<>
-        {/* product description with image */}
-        <ProductImageDescription
-          spaceTopClass="pt-100"
-          spaceBottomClass="pb-100"
-          product={product}
-        />
+        {product && (
+          <>
+            {/* product description with image */}
+            <ProductImageDescription
+              spaceTopClass="pt-100"
+              spaceBottomClass="pb-100"
+              product={product}
+            />
 
-        {/* product description tab */}
-        <ProductDescriptionTab
-          spaceBottomClass="pb-90"
-          productFullDesc={product.shortDescription}
-          product={product}
-        />
+            {/* product description tab */}
+            <ProductDescriptionTab
+              spaceBottomClass="pb-90"
+              productFullDesc={product.shortDescription}
+              product={product}
+            />
 
-        {/* related product slider */}
-        <RelatedProductSlider
-          spaceBottomClass="pb-95"
-          category={product.category[0]}
-        />
-        </>}
+            {/* related product slider */}
+            <RelatedProductSlider
+              spaceBottomClass="pb-95"
+              category={product.category[0]}
+            />
+          </>
+        )}
       </LayoutOne>
     </Fragment>
   );

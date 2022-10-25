@@ -66,11 +66,14 @@ export const getSortedProducts = (products, sortType, sortValue) => {
         (product) =>
           product.category.filter((single) => single === sortValue)[0]
       );
-    } 
+    }
     if (sortType === "tag") {
       return products.filter(
         (product) => product.tag.filter((single) => single === sortValue)[0]
       );
+    }
+    if (sortType == "name") {
+      return products.filter((product) => product.name.match(sortValue));
     }
     if (sortType === "color") {
       return products.filter(

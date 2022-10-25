@@ -13,7 +13,7 @@ const FooterOne = ({
   spaceRightClass,
   containerClass,
   extraFooterClass,
-  sideMenu
+  sideMenu,
 }) => {
   const [scroll, setScroll] = useState(0);
   const [top, setTop] = useState(0);
@@ -108,19 +108,25 @@ const FooterOne = ({
               <div className="footer-list">
                 <ul>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "/Return-Policy"}>Returns & Refund Policy</Link>
+                    <Link to={process.env.PUBLIC_URL + "/Return-Policy"}>
+                      Returns & Refund Policy
+                    </Link>
                   </li>
                   <li>
                     <Link to={process.env.PUBLIC_URL + "/Privacy-Policy"}>
                       Privacy Policy
                     </Link>
                   </li>
-                 
+
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "/shipping-policy"}>Shipping & Delivery Policy</Link>
+                    <Link to={process.env.PUBLIC_URL + "/shipping-policy"}>
+                      Shipping & Delivery Policy
+                    </Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "/Terms-Conditions"}>Terms & conditions</Link>
+                    <Link to={process.env.PUBLIC_URL + "/Terms-Conditions"}>
+                      Terms & conditions
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -197,12 +203,18 @@ const FooterOne = ({
           </div> */}
         </div>
       </div>
-      <button
-        className={`scroll-top ${scroll > top ? "show" : ""}`}
-        onClick={() => scrollToTop()}
-      >
-        <i className="fa fa-angle-double-up"></i>
-      </button>
+      <a href=" https://wa.me/+918848572454" target="_blank">
+        <button
+          className={`scroll-top ${scroll > top ? "show" : ""}`}
+          onClick={() => scrollToTop()}
+          style={{ backgroundColor: "green" }}
+        >
+          <i
+            className="fa fa-whatsapp"
+            style={{ fontSize: "30px", backgroundColor: "green" }}
+          />
+        </button>
+      </a>
     </footer>
   );
 };
@@ -215,7 +227,7 @@ FooterOne.propTypes = {
   spaceBottomClass: PropTypes.string,
   spaceTopClass: PropTypes.string,
   spaceLeftClass: PropTypes.string,
-  spaceRightClass: PropTypes.string
+  spaceRightClass: PropTypes.string,
 };
 
 export default FooterOne;

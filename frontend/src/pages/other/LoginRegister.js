@@ -56,7 +56,8 @@ const LoginRegister = ({ location, user, addToCart }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    const email = data.email;
+    console.log(data,"D");
+    const phone = data.phone;
     const password = data.password;
     try {
       const config = {
@@ -67,7 +68,7 @@ const LoginRegister = ({ location, user, addToCart }) => {
       const { data } = await axios.post(
         "/api/user/login",
         {
-          email,
+          phone,
           password,
         },
         config
@@ -172,21 +173,21 @@ const LoginRegister = ({ location, user, addToCart }) => {
                               >
                                 <input
                                   type="text"
-                                  placeholder="email"
-                                  {...register("email", {
-                                    required: "email is required",
+                                  placeholder="Phone"
+                                  {...register("phone", {
+                                    required: "Phone is required",
                                     pattern: {
-                                      value: /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/,
-                                      message: "invalid email address",
+                                      value: /^[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/,
+                                      message: "invalid phone number",
                                     },
                                   })}
                                   onKeyUp={() => {
-                                    trigger("email");
+                                    trigger("phone");
                                   }}
                                 />
-                                {errors.email && (
+                                {errors.phone && (
                                   <small className="text-danger">
-                                    {errors.email.message}
+                                    {errors.phone.message}
                                   </small>
                                 )}
 

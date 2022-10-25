@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProductCartQuantity } from "../../helpers/product";
 import { addToCart } from "../../redux/actions/cartActions";
+import { useHistory } from "react-router-dom";
 import { addToWishlist } from "../../redux/actions/wishlistActions";
 import Rating from "./sub-components/ProductRating";
 import axios from "axios";
@@ -36,6 +37,7 @@ const ProductImageGallery = ({
     product.variation ? product.variation[0].size[0].stock : product.stock
   );
   const [quantityCount, setQuantityCount] = useState(1);
+  const navigate = useHistory();
 
   const productCartQty = getProductCartQuantity(
     cartItems,
@@ -130,6 +132,16 @@ const ProductImageGallery = ({
         console.log(data);
       } catch (error) {}
     }
+  };
+  const SingleProductPurchase = () => {
+    CartAddingFunction(
+      product,
+      addToast,
+      quantityCount,
+      selectedProductColor,
+      selectedProductSize
+    );
+    navigate.push("/checkout");
   };
   return (
     <Fragment>
@@ -358,7 +370,8 @@ const ProductImageGallery = ({
                     <button
                       onClick={() =>
                         setQuantityCount(
-                          quantityCount < productStock - productCartQty
+                          quantityCount < productStock - productCartQty &&
+                            quantityCount < 5
                             ? quantityCount + 1
                             : quantityCount
                         )
@@ -395,6 +408,27 @@ const ProductImageGallery = ({
                       <button disabled>Out of Stock</button>
                     )}
                   </div>
+                  {productStock > 0 && (
+                    <div className="pro-details-cart btn-hover">
+                      {product.hidden == false ? (
+                        <>
+                          {productStock && productStock > 0 ? (
+                            <button
+                              onClick={SingleProductPurchase}
+                              disabled={productCartQty >= productStock}
+                            >
+                              {" "}
+                              BUY NOW{" "}
+                            </button>
+                          ) : (
+                            <button disabled>Out of Stock</button>
+                          )}
+                        </>
+                      ) : (
+                        <button disabled>Out of Stock</button>
+                      )}
+                    </div>
+                  )}
                   <div className="pro-details-wishlist">
                     <button
                       className={wishlistItem !== undefined ? "active" : ""}
@@ -466,19 +500,6 @@ const ProductImageGallery = ({
               ) : (
                 ""
               )}
-
-              <div className="pro-details-social">
-                <ul>
-                  <li>
-                    <a href=" https://wa.me/+918848572454" target="_blank">
-                      <i
-                        className="fa fa-whatsapp"
-                        style={{ fontSize: "30px", color: "green" }}
-                      />
-                    </a>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>

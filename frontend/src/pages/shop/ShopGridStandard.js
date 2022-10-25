@@ -18,6 +18,7 @@ import { fetchProducts } from "../../redux/actions/productActions";
 import { composeWithDevTools } from "redux-devtools-extension";
 import axios from "axios";
 import { useToasts } from "react-toast-notifications";
+import ShopSearch from "../../components/product/ShopSearch";
 
 const ShopGridStandard = ({ location, user }) => {
   // const [products,setProducts]=useState([])
@@ -33,7 +34,7 @@ const ShopGridStandard = ({ location, user }) => {
   const { addToast } = useToasts();
   const pageLimit = 15;
   const { pathname } = location;
-  const [products,setProducts]=useState([])
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     (async function () {
@@ -44,7 +45,7 @@ const ShopGridStandard = ({ location, user }) => {
           load(),
           composeWithDevTools(applyMiddleware(thunk, save()))
         );
-        setProducts(data)
+        setProducts(data);
         store.dispatch(fetchProducts(data));
       } catch (error) {
         addToast("Somthing Went Wrong", {
@@ -59,7 +60,7 @@ const ShopGridStandard = ({ location, user }) => {
     setLayout(layout);
   };
 
-  const getSortParams = (sortType,sortValue) => {
+  const getSortParams = (sortType, sortValue) => {
     setSortType(sortType);
     setSortValue(sortValue);
   };
@@ -113,15 +114,21 @@ const ShopGridStandard = ({ location, user }) => {
               </div>
               <div className="col-lg-9 order-1 order-lg-2">
                 {/* shop topbar default */}
+
                 <ShopTopbar
                   getLayout={getLayout}
                   getFilterSortParams={getFilterSortParams}
                   productCount={products.length}
                   sortedProductCount={currentData.length}
+                  getSortParams={getSortParams}
                 />
 
                 {/* shop page content default */}
-                <ShopProducts layout={layout} products={currentData} user={user}/>
+                <ShopProducts
+                  layout={layout}
+                  products={currentData}
+                  user={user}
+                />
 
                 {/* shop product pagination */}
                 <div className="pro-pagination-style text-center mt-30">

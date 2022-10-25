@@ -124,13 +124,7 @@ const LoginRegister = ({ location }) => {
                                 type="email"
                                 autoComplete="off"
                                 placeholder="Email"
-                                {...register("email", {
-                                  required: "email is required",
-                                  pattern: {
-                                    value: /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/,
-                                    message: "invalid email address",
-                                  },
-                                })}
+                                {...register("email")}
                                 onKeyUp={() => {
                                   trigger("email");
                                 }}
