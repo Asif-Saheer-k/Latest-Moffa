@@ -139,28 +139,32 @@ const ProductImageGallery = ({
             <div className="product-large-image-wrapper">
               {product.discount || product.new ? (
                 <div className="product-img-badges">
-                               {wholesaler ? (
-                  ""
-                ) :  (
-                  <>
-                    {product.discount ? (
-                      <span className="pink">-{product.discount}%</span>
-                    ) : (
-                      <>
-                        {offer ? <span className="pink">-{offer}%</span> : ""}
-                      </>
-                    )}
-                    {offer ? (
-                      <>
-                        <span className="purple text-warnin">Deal</span>
-                      </>
-                    ) : (
-                      <>
-                        {product.new ? <span className="purple">New</span> : ""}
-                      </>
-                    )}
-                  </>
-                )}
+                  {wholesaler ? (
+                    ""
+                  ) : (
+                    <>
+                      {product.discount ? (
+                        <span className="pink">-{product.discount}%</span>
+                      ) : (
+                        <>
+                          {offer ? <span className="pink">-{offer}%</span> : ""}
+                        </>
+                      )}
+                      {offer ? (
+                        <>
+                          <span className="purple text-warnin">Deal</span>
+                        </>
+                      ) : (
+                        <>
+                          {product.new ? (
+                            <span className="purple">New</span>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               ) : (
                 ""
@@ -466,28 +470,11 @@ const ProductImageGallery = ({
               <div className="pro-details-social">
                 <ul>
                   <li>
-                    <a href="//facebook.com">
-                      <i className="fa fa-facebook" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="//dribbble.com">
-                      <i className="fa fa-dribbble" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="//pinterest.com">
-                      <i className="fa fa-pinterest-p" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="//twitter.com">
-                      <i className="fa fa-twitter" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="//linkedin.com">
-                      <i className="fa fa-linkedin" />
+                    <a href=" https://wa.me/+918848572454" target="_blank">
+                      <i
+                        className="fa fa-whatsapp"
+                        style={{ fontSize: "30px", color: "green" }}
+                      />
                     </a>
                   </li>
                 </ul>

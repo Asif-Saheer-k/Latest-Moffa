@@ -26,7 +26,7 @@ const Cart = ({ location }) => {
 
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
-        Success
+        Error
       </BreadcrumbsItem>
 
       <LayoutOne headerTop="visible">
