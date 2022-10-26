@@ -13,7 +13,7 @@ const ShopTopAction = ({
 
   return (
     <div className="shop-top-bar mb-35">
-      <ShopSearch getSortParams={getSortParams}/>
+    
       <div className="select-shoing-wrap">
         <div className="shop-select">
           <select
@@ -55,6 +55,7 @@ const ShopTopAction = ({
           <i className="fa fa-list-ul" />
         </button>
       </div>
+      <ShopSearch getSortParams={getSortParams}/>
     </div>
   );
 };

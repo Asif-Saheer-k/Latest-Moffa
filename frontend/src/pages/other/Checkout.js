@@ -26,6 +26,7 @@ import {
 
 const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [addaddress, setAddress] = useState({});
+  const [fromaddress, setFromaddress] = useState({});
   const [checked, setChecked] = React.useState(false);
   const [invalid, setInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [walletApplyAmount, setWalletApplyAmount] = useState(null);
   const [Amount, setAmount] = useState();
   const [state, setState] = useState();
+  const [fromstate,setFromstate] = useState();
   const [produt, setProducts] = useState([]);
   const [deliveryCharge, setDeliveryCharges] = useState(50);
   const [cart, setCart] = useState([]);
@@ -196,7 +198,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const message = data?.message;
             const State = state;
             const user = true;
-            const payment_type="paytm"
+            const payment_type = "paytm";
             try {
               const config = {
                 headers: {
@@ -223,7 +225,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   message,
                   State,
                   user,
-                  payment_type
+                  payment_type,
                 },
                 config
               );
@@ -242,85 +244,107 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
               });
             }
           } else {
-            const OderProducts = cartItems;
-            const totamAmount = cartTotalPrice.toFixed(0);
-            const DeliveyCharge = deliveryCharge;
-            const DeliveryType = Post;
-            const CUST_ID = users.CUST_ID;
-            const Name = data.Name;
-            const LastName = data.LastName;
-            const StreetAddress = data?.StreetAddress;
-            const Apartment = data?.Apartment;
-            const TownCity = data.TownCity;
-            const Postcode = data.Postcode;
-            const PhoneNumber = data.PhoneNumber;
-            const Email = data.Email;
-            const message = data?.message;
-            const State = state;
-            const user = false;
-            const payment_type="paytm"
-            var Applywallet = 0;
-            if (walletApplyAmount) {
-              Applywallet = walletApplyAmount;
-            }
-            try {
-              const config = {
-                headers: {
-                  "Content-type": "application/json",
-                  "auth-token": users.token,
-                },
-              };
-              const { data } = await axios.post(
-                "/api/user/payment-methode/paytm",
-                {
-                  OderProducts,
-                  totamAmount,
-                  DeliveyCharge,
-                  DeliveryType,
-                  CUST_ID,
-                  Name,
-                  LastName,
-                  StreetAddress,
-                  Apartment,
-                  TownCity,
-                  Postcode,
-                  PhoneNumber,
-                  Email,
-                  message,
-                  State,
-                  user,
-                  Applywallet,
-                  payment_type
-                },
-                config
-              );
-              var details = {
-                action: "https://securegw.paytm.in/order/process",
-                params: data,
-              };
-              post(details);
-            } catch (error) {
-              if (error.response.data == "refresh") {
-                swal({
-                  title: "Please Refresh Your Web Page",
-                  text: "We sincerely apologize for this inconvenience",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                });
-              } else {
-                swal({
-                  title: "Product Out Of Stock",
-                  text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                });
+            if (fromstate) {
+              const OderProducts = cartItems;
+              const totamAmount = cartTotalPrice.toFixed(0);
+              const DeliveyCharge = deliveryCharge;
+              const DeliveryType = Post;
+              const CUST_ID = users.CUST_ID;
+              const Name = data.Name;
+              const FromName = data.FromName;
+              const LastName = data.LastName;
+              const FromLastName = data.FromLastName;
+              const StreetAddress = data?.StreetAddress;
+              const FromStreetAddress = data?.FromStreetAddress;
+              const Apartment = data?.Apartment;
+              const TownCity = data.TownCity;
+              const FromTownCity = data.FromTownCity;
+              const Postcode = data.Postcode;
+              const FromPostcode = data.FromPostcode;
+              const PhoneNumber = data.PhoneNumber;
+              const FromPhoneNumber = data.FromPhoneNumber;
+              const Email = data.Email;
+              const FromEmail = data.FromEmail;
+              const message = data?.message;
+              const State = state;
+              const FromState = fromstate;
+              const user = false;
+              const payment_type = "paytm";
+              var Applywallet = 0;
+              if (walletApplyAmount) {
+                Applywallet = walletApplyAmount;
               }
+              try {
+                const config = {
+                  headers: {
+                    "Content-type": "application/json",
+                    "auth-token": users.token,
+                  },
+                };
+                const { data } = await axios.post(
+                  "/api/user/payment-methode/paytm",
+                  {
+                    OderProducts,
+                    totamAmount,
+                    DeliveyCharge,
+                    DeliveryType,
+                    CUST_ID,
+                    Name,
+                    FromName,
+                    LastName,
+                    FromLastName,
+                    StreetAddress,
+                    FromStreetAddress,
+                    Apartment,
+                    TownCity,
+                    FromTownCity,
+                    Postcode,
+                    FromPostcode,
+                    PhoneNumber,
+                    FromPhoneNumber,
+                    Email,
+                    FromEmail,
+                    message,
+                    State,
+                    FromState,
+                    user,
+                    Applywallet,
+                    payment_type,
+                  },
+                  config
+                );
+                var details = {
+                  action: "https://securegw.paytm.in/order/process",
+                  params: data,
+                };
+                post(details);
+              } catch (error) {
+                if (error.response.data == "refresh") {
+                  swal({
+                    title: "Please Refresh Your Web Page",
+                    text: "We sincerely apologize for this inconvenience",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  });
+                } else {
+                  swal({
+                    title: "Product Out Of Stock",
+                    text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  });
+                }
+              }
+            } else {
+              addToast("Please Select State", {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           }
         } else {
-    
           var users = user;
           if (users.user) {
             const OderProducts = cartItems;
@@ -339,7 +363,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const message = data?.message;
             const State = state;
             const user = true;
-            const payment_type="razorpay"
+            const payment_type = "razorpay";
             try {
               const config = {
                 headers: {
@@ -366,7 +390,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   message,
                   State,
                   user,
-                  payment_type
+                  payment_type,
                 },
                 config
               );
@@ -413,7 +437,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     prefill: {
                       name: user.name,
                       email: user.email,
-                      contact:user.phone,
+                      contact: user.phone,
                     },
                     notes: {
                       address: orderObject.address,
@@ -444,112 +468,140 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
               });
             }
           } else {
-            const OderProducts = cartItems;
-            const totamAmount = cartTotalPrice.toFixed(0);
-            const DeliveyCharge = deliveryCharge;
-            const DeliveryType = Post;
-            const CUST_ID = users.CUST_ID;
-            const Name = data.Name;
-            const LastName = data.LastName;
-            const StreetAddress = data?.StreetAddress;
-            const Apartment = data?.Apartment;
-            const TownCity = data.TownCity;
-            const Postcode = data.Postcode;
-            const PhoneNumber = data.PhoneNumber;
-            const Email = data.Email;
-            const message = data?.message;
-            const State = state;
-            const user = false;
-            const payment_type="razorpay"
-            var Applywallet = 0;
-            if (walletApplyAmount) {
-              Applywallet = walletApplyAmount;
-            }
-            try {
-              const config = {
-                headers: {
-                  "Content-type": "application/json",
-                  "auth-token": users.token,
-                },
-              };
-              const { data } = await axios.post(
-                "/api/user/create-order-object",
-                {
-                  OderProducts,
-                  totamAmount,
-                  DeliveyCharge,
-                  DeliveryType,
-                  CUST_ID,
-                  Name,
-                  LastName,
-                  StreetAddress,
-                  Apartment,
-                  TownCity,
-                  Postcode,
-                  PhoneNumber,
-                  Email,
-                  message,
-                  State,
-                  user,
-                  Applywallet,
-                  payment_type
-                },
-                config
-              );
-              if (data) {
-                try {
-                  const config = {
-                    headers: {
-                      "Content-type": "application/json",
-                      "auth-token": users.token,
-                    },
-                  };
-                  const { data } = await axios.post(
-                    "/api/user/razorpay",
-                    data,
-                    config
-                  );
-                  const { ammount, id: order_id, currency } = data;
-                  const options = {
-                    key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
-                    amount: ammount,
-                    currency: currency,
-                    name: "MOFFA CLOTHING.",
-                    description: "Live Transaction",
-                    image: "F",
-                    order_id: order_id,
-                    handler: async function (response) {
-                      const data = {
-                        orderCreationId: order_id,
-                        razorpayPaymentId: response.razorpay_payment_id,
-                        razorpayOrderId: response.razorpay_order_id,
-                        razorpaySignature: response.razorpay_signature,
-                      };
-                      try {
-                        const result = await axios.post(
-                          "api/user/razorpay-payment/success",
-                          data
-                        );
-                        navigate.push("/success");
-                      } catch (error) {
-                        navigate.push("/error");
-                      }
-                    },
-                    prefill: {
-                      name: user.name,
-                      email: user.email,
-                      contact:user.phone,
-                    },
-                    notes: {
-                      address: orderObject.address,
-                    },
-                    theme: {
-                      color: "#FFFFE3",
-                    },
-                  };
-                  const paymentObject = new window.Razorpay(options);
-                  paymentObject.open();
-                } catch (err) {
+            if (fromstate) {
+              const OderProducts = cartItems;
+              const totamAmount = cartTotalPrice.toFixed(0);
+              const DeliveyCharge = deliveryCharge;
+              const DeliveryType = Post;
+              const CUST_ID = users.CUST_ID;
+              const Name = data.Name;
+              const FromName = data.FromName;
+              const LastName = data.LastName;
+              const FromLastName = data.FromLastName;
+              const StreetAddress = data?.StreetAddress;
+              const FromStreetAddress = data?.FromStreetAddress;
+              const Apartment = data?.Apartment;
+              const TownCity = data.TownCity;
+              const FromTownCity = data.FromTownCity;
+              const Postcode = data.Postcode;
+              const FromPostcode = data.FromPostcode;
+              const PhoneNumber = data.PhoneNumber;
+              const FromPhoneNumber = data.FromPhoneNumber;
+              const Email = data.Email;
+              const FromEmail = data.FromEmail;
+              const message = data?.message;
+              const State = state;
+              const FromState = fromstate;
+              const user = false;
+              const payment_type = "razorpay";
+              var Applywallet = 0;
+              if (walletApplyAmount) {
+                Applywallet = walletApplyAmount;
+              }
+              try {
+                const config = {
+                  headers: {
+                    "Content-type": "application/json",
+                    "auth-token": users.token,
+                  },
+                };
+                const { data } = await axios.post(
+                  "/api/user/create-order-object",
+                  {
+                    OderProducts,
+                    totamAmount,
+                    DeliveyCharge,
+                    DeliveryType,
+                    CUST_ID,
+                    Name,
+                    FromName,
+                    LastName,
+                    FromLastName,
+                    StreetAddress,
+                    FromStreetAddress,
+                    Apartment,
+                    TownCity,
+                    FromTownCity,
+                    Postcode,
+                    FromPostcode,
+                    PhoneNumber,
+                    FromPhoneNumber,
+                    Email,
+                    FromEmail,
+                    message,
+                    State,
+                    FromState,
+                    user,
+                    Applywallet,
+                    payment_type,
+                  },
+                  config
+                );
+                if (data) {
+                  try {
+                    const config = {
+                      headers: {
+                        "Content-type": "application/json",
+                        "auth-token": users.token,
+                      },
+                    };
+                    const { data } = await axios.post(
+                      "/api/user/razorpay",
+                      data,
+                      config
+                    );
+                    const { ammount, id: order_id, currency } = data;
+                    const options = {
+                      key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
+                      amount: ammount,
+                      currency: currency,
+                      name: "MOFFA CLOTHING.",
+                      description: "Live Transaction",
+                      image: "F",
+                      order_id: order_id,
+                      handler: async function (response) {
+                        const data = {
+                          orderCreationId: order_id,
+                          razorpayPaymentId: response.razorpay_payment_id,
+                          razorpayOrderId: response.razorpay_order_id,
+                          razorpaySignature: response.razorpay_signature,
+                        };
+                        try {
+                          const result = await axios.post(
+                            "api/user/razorpay-payment/success",
+                            data
+                          );
+                          navigate.push("/success");
+                        } catch (error) {
+                          navigate.push("/error");
+                        }
+                      },
+                      prefill: {
+                        name: user.name,
+                        email: user.email,
+                        contact: user.phone,
+                      },
+                      notes: {
+                        address: orderObject.address,
+                      },
+                      theme: {
+                        color: "#FFFFE3",
+                      },
+                    };
+                    const paymentObject = new window.Razorpay(options);
+                    paymentObject.open();
+                  } catch (err) {
+                    swal({
+                      title: "Please Refresh Your Web Page",
+                      text: "We sincerely apologize for this inconvenience",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                    });
+                  }
+                }
+              } catch (error) {
+                if (error.response.data == "refresh") {
                   swal({
                     title: "Please Refresh Your Web Page",
                     text: "We sincerely apologize for this inconvenience",
@@ -557,26 +609,21 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     buttons: true,
                     dangerMode: true,
                   });
+                } else {
+                  swal({
+                    title: "Product Out Of Stock",
+                    text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  });
                 }
               }
-            } catch (error) {
-              if (error.response.data == "refresh") {
-                swal({
-                  title: "Please Refresh Your Web Page",
-                  text: "We sincerely apologize for this inconvenience",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                });
-              } else {
-                swal({
-                  title: "Product Out Of Stock",
-                  text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                });
-              }
+            } else {
+              addToast("Please Select State", {
+                appearance: "error",
+                autoDismiss: true,
+              });
             }
           }
 
@@ -599,6 +646,11 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
       navigate.push("/login-register");
     }
   };
+  useEffect(() => {
+    if (!user) {
+      navigate.push("/login-register");
+    }
+  }, []);
 
   //take user Deatails function
   useEffect(async () => {
@@ -619,6 +671,8 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         );
 
         const address = data?.Address;
+        const FromAddress = data?.FromAddress;
+        setFromaddress(FromAddress);
         setWallet(data.wallet);
         setAddress(address);
       } catch (error) {
@@ -640,6 +694,17 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     setValue("PhoneNumber", address.PhoneNumber);
     setValue("Email", address.Email);
     setState(address.State);
+  };
+  const AddAddresFrom = (details) => {
+    console.log(details,"D");
+    setValue("FromName", details.FromName);
+    setValue("FromLastName", details.FromLastName);
+    setValue("FromStreetAddress", details.FromStreetAddress);
+    setValue("FromTownCity", details.FromTownCity);
+    setValue("FromPostcode", details.FromPincode);
+    setValue("FromPhoneNumber", details.FromPhoneNumber);
+    setValue("FromEmail", details.FromEmail);
+    setFromstate(details.FromState);
   };
   //delete address
   const DelateAddress = async () => {
@@ -715,8 +780,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     }
   };
 
-
-
   return (
     <Fragment>
       <MetaTags>
@@ -740,7 +803,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                 <div className="row">
                   <div className="col-lg-7">
                     <div className="billing-info-wrap">
-                      <h3>Billing Details</h3>
+                      <h3>TO:</h3>
                       {user && (
                         <>
                           {addaddress && (
@@ -1049,6 +1112,314 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                         </div>
                       </div>
                     </div>
+                    {user?.user ? (
+                      ""
+                    ) : (
+                      <div className="billing-info-wrap mt-4">
+                        <h3>FROM:</h3>
+                        {user && (
+                          <>
+                            {fromaddress && (
+                              <Accordion defaultActiveKey="0">
+                                <Card className="single-my-account mb-20">
+                                  <Card.Header className="panel-heading">
+                                    <Accordion.Toggle
+                                      variant="link"
+                                      eventKey="2"
+                                    >
+                                      <h3 className="panel-title">
+                                        <span>1 .</span> Modify From address
+                                        book entries{" "}
+                                      </h3>
+                                    </Accordion.Toggle>
+                                  </Card.Header>
+                                  <Accordion.Collapse eventKey="2">
+                                    <Card.Body>
+                                      <div className="myaccount-info-wrapper">
+                                        <div className="account-info-wrapper">
+                                          <h4>Address Book Entries</h4>
+                                        </div>
+                                        <div className="entries-wrapper">
+                                          <div className="row">
+                                            <div className="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
+                                              <div className="entries-info text-center">
+                                                <p>
+                                                  {fromaddress.FromName},
+                                                  {fromaddress.FromLastName}
+                                                </p>
+                                                <p>
+                                                  {
+                                                    fromaddress.FromStreetAddress
+                                                  }
+                                                </p>
+                                                <p>
+                                                  {fromaddress.FromTownCity},
+                                                  {fromaddress.FromState},
+                                                  {fromaddress.FromPincode}
+                                                </p>
+                                                <p>{fromaddress.FromEmail}</p>
+                                                <p>
+                                                  {fromaddress.FromPhoneNumber}
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div className="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
+                                              <div className="entries-edit-delete text-center">
+                                                <a
+                                                  onClick={() => {
+                                                    AddAddresFrom(fromaddress);
+                                                  }}
+                                                  className="btn edit"
+                                                >
+                                                  ADD
+                                                </a>
+                                                <a onClick={DelateAddress}>
+                                                  Delete
+                                                </a>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Card.Body>
+                                  </Accordion.Collapse>
+                                </Card>
+                              </Accordion>
+                            )}
+                          </>
+                        )}
+                        <div className="row">
+                          <div className="col-lg-6 col-md-6">
+                            <div className="billing-info mb-20">
+                              <label>First Name</label>
+                              <input
+                                type="text"
+                                color="red"
+                                {...register("FromName", {
+                                  required: "Name is required",
+                                  pattern: {
+                                    value: /^[a-zA-Z\s]*$/,
+                                    message: "Please Enter Valid Name",
+                                  },
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromName");
+                                }}
+                              />
+                              {errors.FromName && (
+                                <small className="text-danger">
+                                  {errors.FromName.message}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-lg-6 col-md-6">
+                            <div className="billing-info mb-20">
+                              <label>Last Name</label>
+                              <input
+                                type="text"
+                                {...register("FromLastName", {
+                                  required: "Last Name  required",
+                                  pattern: {
+                                    value: /^[a-zA-Z\s]*$/,
+                                    message: "Please Enter Valid Name",
+                                  },
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromLastName");
+                                }}
+                              />
+                              {errors.FromLastName && (
+                                <small className="text-danger">
+                                  {errors.FromLastName.message}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                          {/* <div className="col-lg-12">
+                          <div className="billing-info mb-20">
+                            <label>Company Name</label>
+                            <input type="text" />
+                          </div>
+                        </div> */}
+                          <div className="col-lg-12">
+                            <div className="billing-select mb-20">
+                              <label>State</label>
+                              <select
+                                onChange={(e) => {
+                                  setFromstate(e.target.value);
+                                }}
+                              >
+                                {state ? (
+                                  <option>{fromstate}</option>
+                                ) : (
+                                  <option>Select a State</option>
+                                )}
+                                <option>Kerala</option>
+                                <option>Andhra Pradesh</option>
+                                <option>Arunachal Pradesh</option>
+                                <option>Assam</option>
+                                <option>Bihar</option>
+                                <option>Chhattisgarh</option>
+                                <option>Goa</option>
+                                <option>Gujarat</option>
+                                <option>Haryana</option>
+                                <option>Himachal Pradesh</option>
+                                <option>Jharkhand</option>
+                                <option>Karnataka</option>
+                                <option>Madhya Pradesh</option>
+                                <option>Maharashtra</option>
+                                <option>Manipur</option>
+                                <option>Meghalaya</option>
+                                <option>Mizoram</option>
+                                <option>Nagaland</option>
+                                <option>Odisha</option>
+                                <option>Punjab</option>
+                                <option>Rajasthan</option>
+                                <option>Sikkim</option>
+                                <option>Tamil Nadu</option>
+                                <option>Telangana</option>
+                                <option>Tripura</option>
+                                <option>Uttar Pradesh</option>
+                                <option>Uttarakhand</option>
+                                <option>West Bengal</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-lg-12">
+                            <div className="billing-info mb-20">
+                              <label>Street Address</label>
+                              <input
+                                className="billing-address"
+                                placeholder="House number and street name"
+                                type="text"
+                                {...register("FromStreetAddress", {
+                                  required: "required",
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromStreetAddress");
+                                }}
+                              />
+                              {errors.FromStreetAddress && (
+                                <small className="text-danger">
+                                  {errors.FromStreetAddress.message}
+                                </small>
+                              )}
+                              {/* <input
+                              placeholder="Apartment, suite, unit etc."
+                              type="text"
+                              {...register("Apartment", {
+                          
+                              })}
+                              onKeyUp={() => {
+                                trigger("Apartment");
+                              }}
+                            /> */}
+                              {/* {errors.Apartment && (
+                                <small className="text-danger">
+                                  {errors.Apartment.message}
+                                </small>
+                              )} */}
+                            </div>
+                          </div>
+                          <div className="col-lg-6 col-md-6">
+                            <div className="billing-info mb-20">
+                              <label>Town / City</label>
+                              <input
+                                type="text"
+                                {...register("FromTownCity", {
+                                  required: "required",
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromTownCity");
+                                }}
+                              />
+                              {errors.FromTownCity && (
+                                <small className="text-danger">
+                                  {errors.FromTownCity.message}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                          {/* <div className="col-lg-6 col-md-6">
+                          <div className="billing-info mb-20">
+                            <label>State / County</label>
+                            <input type="text" />
+                          </div>
+                        </div> */}
+                          <div className="col-lg-6 col-md-6">
+                            <div className="billing-info mb-20">
+                              <label>Postcode / ZIP</label>
+                              <input
+                                type="text"
+                                {...register("FromPostcode", {
+                                  required: "*required",
+                                  pattern: {
+                                    value: /^[0-9]+$/,
+                                    message: "Please Enter Valid PIN",
+                                  },
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromPostcode");
+                                }}
+                              />
+                              {errors.FromPostcode && (
+                                <small className="text-danger">
+                                  {errors.FromPostcode.message}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-lg-6 col-md-6">
+                            <div className="billing-info mb-20">
+                              <label>Phone</label>
+                              <input
+                                type="text"
+                                {...register("FromPhoneNumber", {
+                                  required: "*required",
+                                  pattern: {
+                                    value:
+                                      /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/,
+                                    message: "Please Enter Valid Phone Number",
+                                  },
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromPhoneNumber");
+                                }}
+                              />
+                              {errors.FromPhoneNumber && (
+                                <small className="text-danger">
+                                  {errors.FromPhoneNumber.message}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-lg-6 col-md-6">
+                            <div className="billing-info mb-20">
+                              <label>Email Address</label>
+                              <input
+                                type="text"
+                                {...register("FromEmail", {
+                                  required: "*required",
+                                  pattern: {
+                                    value: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+                                    message: "Please Enter Valid Email",
+                                  },
+                                })}
+                                onKeyUp={() => {
+                                  trigger("FromEmail");
+                                }}
+                              />
+                              {errors.FromEmail && (
+                                <small className="text-danger">
+                                  {errors.FromEmail.message}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-lg-5">
