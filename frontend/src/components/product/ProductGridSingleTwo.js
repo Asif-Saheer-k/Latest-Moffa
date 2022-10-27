@@ -28,31 +28,34 @@ const ProductGridSingleTwo = ({
   const date = new Date().toLocaleDateString();
   var offer = null;
   product.Deal.map((items) => {
-    console.log(items.date,date);
+    console.log(items.date, date);
     if (items.date == date) {
       offer = items.offer;
     }
   });
   var finalProductPrice;
   var finalDiscountedPrice;
-  var wholesaler=false;
+  var wholesaler = false;
   if (user?.user == true || user == null) {
-    if(offer){
-      var discountedPrice = getDiscountPrice(product.price,offer).toFixed(0);
-    }else if(product.discount){
-      var discountedPrice = getDiscountPrice(product.price, product.discount).toFixed(0);
-    }else{
+    if (offer) {
+      var discountedPrice = getDiscountPrice(product.price, offer).toFixed(0);
+    } else if (product.discount) {
+      var discountedPrice = getDiscountPrice(
+        product.price,
+        product.discount
+      ).toFixed(0);
+    } else {
       var discountedPrice = null;
     }
     finalProductPrice = product.price;
     finalDiscountedPrice = discountedPrice;
   } else {
-    wholesaler=true
+    wholesaler = true;
     finalProductPrice = product.price;
     finalDiscountedPrice = product.wholesaler;
   }
   const singlePage = () => {
-    window.location.href=`${process.env.PUBLIC_URL}/product/${product.id}`
+    window.location.href = `${process.env.PUBLIC_URL}/product/${product.id}`;
   };
   return (
     <Fragment>
@@ -68,7 +71,7 @@ const ProductGridSingleTwo = ({
         >
           <div className="product-img">
             <Link onClick={singlePage}>
-              <img className="default-img"  src={product.image[0].url} alt="" />
+              <img className="default-img" src={product.image[0].url} alt="" />
               {product.image.length > 1 ? (
                 <img className="hover-img" src={product.image[1].url} alt="" />
               ) : (
@@ -79,7 +82,7 @@ const ProductGridSingleTwo = ({
               <div className="product-img-badges">
                 {wholesaler ? (
                   ""
-                ) :  (
+                ) : (
                   <>
                     {product.discount ? (
                       <span className="pink">-{product.discount}%</span>
@@ -170,16 +173,28 @@ const ProductGridSingleTwo = ({
                   {product.name}
                 </Link>
               </h3>
-              <div className="price-2">
-                {discountedPrice !== null ? (
-                  <Fragment>
-                    <span>₹{finalDiscountedPrice}</span>{" "}
-                    <span className="old">₹{finalProductPrice}</span>
-                  </Fragment>
-                ) : (
-                  <span>₹{finalProductPrice} </span>
-                )}
-              </div>
+              {wholesaler ? (
+                <div className="price-2">
+                  {discountedPrice !== null ? (
+                    <Fragment>
+                      <span>₹{finalDiscountedPrice}</span>{" "}
+                    </Fragment>
+                  ) : (
+                    <span>₹{finalDiscountedPrice} </span>
+                  )}
+                </div>
+              ) : (
+                <div className="price-2">
+                  {discountedPrice !== null ? (
+                    <Fragment>
+                      <span>₹{finalDiscountedPrice}</span>{" "}
+                      <span className="old">₹{finalProductPrice}</span>
+                    </Fragment>
+                  ) : (
+                    <span>₹{finalProductPrice} </span>
+                  )}
+                </div>
+              )}
             </div>
             <div className="pro-wishlist-2">
               <button

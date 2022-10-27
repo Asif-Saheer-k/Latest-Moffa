@@ -109,6 +109,7 @@ const ShopGridStandard = ({ location, user }) => {
                 <ShopSidebar
                   products={products}
                   getSortParams={getSortParams}
+                  show={true}
                   sideSpaceClass="mr-30"
                 />
               </div>

@@ -1613,7 +1613,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                         value="paytm"
                                         control={<Radio />}
                                         onChange={(e) => {
-                                          setCourierservice("DTDC");
+                                          setCourierservice("dtdc");
                                         }}
                                       />
                                     </li>
@@ -1627,7 +1627,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                         value=" Razprpay"
                                         control={<Radio />}
                                         onChange={(e) => {
-                                          setCourierservice("SPEED POST");
+                                          setCourierservice("speed post");
                                         }}
                                       />
                                     </li>

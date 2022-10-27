@@ -234,7 +234,19 @@ const ProductImageGallery = ({
           <div className="col-lg-6 col-md-6">
             <div className="product-details-content ml-70">
               <h2>{product.name}</h2>
-              <div className="product-details-price">
+              {wholesaler ? (
+                <div className="product-details-price">
+                  {discountedPrice !== null ? (
+                    <Fragment>
+                      <span>₹{finalDiscountedPrice}</span>{" "}
+                  
+                    </Fragment>
+                  ) : (
+                    <span>₹{finalDiscountedPrice} </span>
+                  )}
+                </div>
+              ) : (
+                <div className="product-details-price">
                 {discountedPrice !== null ? (
                   <Fragment>
                     <span>₹{finalDiscountedPrice}</span>{" "}
@@ -246,6 +258,8 @@ const ProductImageGallery = ({
                   <span>₹{finalProductPrice} </span>
                 )}
               </div>
+              )}
+
               {product.rating && product.rating > 0 ? (
                 <div className="pro-details-rating-wrap">
                   <div className="pro-details-rating">
