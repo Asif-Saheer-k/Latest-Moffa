@@ -705,6 +705,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     setState(address.State);
   };
   const AddAddresFrom = (details) => {
+    console.log(details,"D");
     setValue("FromName", details.FromName);
     setValue("FromLastName", details.FromLastName);
     setValue("FromStreetAddress", details.FromStreetAddress);
