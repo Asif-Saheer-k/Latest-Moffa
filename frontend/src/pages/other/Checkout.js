@@ -34,12 +34,13 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [walletApplyAmount, setWalletApplyAmount] = useState(null);
   const [Amount, setAmount] = useState();
   const [state, setState] = useState();
-  const [fromstate,setFromstate] = useState();
+  const [fromstate, setFromstate] = useState();
   const [produt, setProducts] = useState([]);
   const [deliveryCharge, setDeliveryCharges] = useState(50);
   const [cart, setCart] = useState([]);
   const [payment, setPayment] = useState("paytm");
   const [orderObject, setorderObject] = useState({});
+  const [courier, setCourierservice] = useState("DTDC");
   const [admin, setAdmin] = useState();
 
   const { pathname } = location;
@@ -195,6 +196,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const Postcode = data.Postcode;
             const PhoneNumber = data.PhoneNumber;
             const Email = data.Email;
+            const Service = courier;
             const message = data?.message;
             const State = state;
             const user = true;
@@ -226,6 +228,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   State,
                   user,
                   payment_type,
+                  Service,
                 },
                 config
               );
@@ -268,6 +271,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
               const message = data?.message;
               const State = state;
               const FromState = fromstate;
+              const Service = courier;
               const user = false;
               const payment_type = "paytm";
               var Applywallet = 0;
@@ -310,6 +314,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     user,
                     Applywallet,
                     payment_type,
+                    Service,
                   },
                   config
                 );
@@ -361,6 +366,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const PhoneNumber = data.PhoneNumber;
             const Email = data.Email;
             const message = data?.message;
+            const Service = courier;
             const State = state;
             const user = true;
             const payment_type = "razorpay";
@@ -389,6 +395,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   Email,
                   message,
                   State,
+                  Service,
                   user,
                   payment_type,
                 },
@@ -492,6 +499,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
               const message = data?.message;
               const State = state;
               const FromState = fromstate;
+              const Service = courier;
               const user = false;
               const payment_type = "razorpay";
               var Applywallet = 0;
@@ -531,6 +539,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     message,
                     State,
                     FromState,
+                    Service,
                     user,
                     Applywallet,
                     payment_type,
@@ -696,12 +705,11 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     setState(address.State);
   };
   const AddAddresFrom = (details) => {
-    console.log(details,"D");
     setValue("FromName", details.FromName);
     setValue("FromLastName", details.FromLastName);
     setValue("FromStreetAddress", details.FromStreetAddress);
     setValue("FromTownCity", details.FromTownCity);
-    setValue("FromPostcode", details.FromPincode);
+    setValue("FromPostcode", details.FromPostcode);
     setValue("FromPhoneNumber", details.FromPhoneNumber);
     setValue("FromEmail", details.FromEmail);
     setFromstate(details.FromState);
@@ -1155,7 +1163,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                                 <p>
                                                   {fromaddress.FromTownCity},
                                                   {fromaddress.FromState},
-                                                  {fromaddress.FromPincode}
+                                                  {fromaddress.FromPostcode}
                                                 </p>
                                                 <p>{fromaddress.FromEmail}</p>
                                                 <p>
@@ -1581,6 +1589,52 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                               </li>
                             </ul>
                           </div>
+                          <FormControl>
+                            <RadioGroup
+                              aria-labelledby="demo-radio-buttons-group-label"
+                              defaultValue="paytm"
+                              name="radio-buttons-group"
+                            >
+                              <div className="discount-code-wrapper mt-2">
+                                <div className="title-wrap">
+                                  <h4 className="cart-bottom-title section-bg-gray">
+                                    Select Courier Service
+                                  </h4>
+                                </div>
+
+                                <div className="your-order-bottom mt-2">
+                                  <ul>
+                                    <li className="your-order-shipping">
+                                      DTDC
+                                    </li>
+                                    <li>
+                                      <FormControlLabel
+                                        value="paytm"
+                                        control={<Radio />}
+                                        onChange={(e) => {
+                                          setCourierservice("DTDC");
+                                        }}
+                                      />
+                                    </li>
+                                  </ul>
+                                  <ul>
+                                    <li className="your-order-shipping">
+                                      SPEED POST
+                                    </li>
+                                    <li>
+                                      <FormControlLabel
+                                        value=" Razprpay"
+                                        control={<Radio />}
+                                        onChange={(e) => {
+                                          setCourierservice("SPEED POST");
+                                        }}
+                                      />
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </RadioGroup>
+                          </FormControl>
 
                           <FormControl>
                             <RadioGroup
@@ -1595,7 +1649,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                   </h4>
                                 </div>
 
-                                <div className="your-order-bottom mt-5">
+                                <div className="your-order-bottom mt-2">
                                   <ul>
                                     <li className="your-order-shipping">
                                       Paytm

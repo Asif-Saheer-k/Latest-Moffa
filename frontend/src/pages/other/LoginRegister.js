@@ -56,7 +56,7 @@ const LoginRegister = ({ location, user, addToCart }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log(data,"D");
+    console.log(data, "D");
     const phone = data.phone;
     const password = data.password;
     try {
@@ -177,7 +177,8 @@ const LoginRegister = ({ location, user, addToCart }) => {
                                   {...register("phone", {
                                     required: "Phone is required",
                                     pattern: {
-                                      value: /^[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/,
+                                      value:
+                                        /^[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/,
                                       message: "invalid phone number",
                                     },
                                   })}
@@ -214,18 +215,32 @@ const LoginRegister = ({ location, user, addToCart }) => {
                                 )}
 
                                 <div className="button-box">
-                                  <div className="login-toggle-btn">
-                                    {/* <input type="checkbox" />
-                                    <label className="ml-10">Remember me</label> */}
-                                    <Link
-                                      to={process.env.PUBLIC_URL + "/otp-login"}
-                                    >
-                                      OTP LOGIN
-                                    </Link>
+                           
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      justifyContent: "space-between",
+                                    }}
+                                  >
+                                    <div>
+                                      <button type="submit">
+                                        <span>Login</span>
+                                      </button>
+                                    </div>
+                                    <div>
+                                      <button >
+                                        <Link
+                                          to={
+                                            process.env.PUBLIC_URL +
+                                            "/otp-login"
+                                          }
+                                        >
+                                         OTP LOGIN
+                                        </Link>
+                                      </button>
+                                    </div>
                                   </div>
-                                  <button type="submit">
-                                    <span>Login</span>
-                                  </button>
                                 </div>
                               </form>
                             </div>

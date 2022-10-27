@@ -26,7 +26,7 @@ const ShopTopAction = ({
         </div>
         <p>
           Showing {sortedProductCount} of {productCount} result
-        </p>
+        </p> 
       </div>
      
       <div className="shop-tab">
