@@ -219,6 +219,7 @@ const ProductGridSingleTwo = ({
         onHide={() => setModalShow(false)}
         product={product}
         currency={currency}
+        wholesaler={wholesaler}
         discountedprice={discountedPrice}
         finalproductprice={finalProductPrice}
         finaldiscountedprice={finalDiscountedPrice}

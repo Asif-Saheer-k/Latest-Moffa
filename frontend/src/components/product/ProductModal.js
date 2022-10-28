@@ -166,16 +166,29 @@ function ProductModal(props) {
             <div className="col-md-7 col-sm-12 col-xs-12">
               <div className="product-details-content quickview-content">
                 <h2>{product.name}</h2>
-                <div className="product-details-price">
-                  {discountedprice !== null ? (
-                    <Fragment>
-                      <span>₹{finaldiscountedprice}</span>{" "}
-                      <span className="old">₹{finalproductprice}</span>
-                    </Fragment>
-                  ) : (
-                    <span>₹{finalproductprice} </span>
-                  )}
-                </div>
+                {props.wholesaler ? (
+                  <div className="product-details-price">
+                    {discountedprice !== null ? (
+                      <Fragment>
+                        <span>₹{finaldiscountedprice}</span>{" "}
+                      
+                      </Fragment>
+                    ) : (
+                      <span>₹{finaldiscountedprice} </span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="product-details-price">
+                    {discountedprice !== null ? (
+                      <Fragment>
+                        <span>₹{finaldiscountedprice}</span>{" "}
+                        <span className="old">₹{finalproductprice}</span>
+                      </Fragment>
+                    ) : (
+                      <span>₹{finalproductprice} </span>
+                    )}
+                  </div>
+                )}
                 {product.rating && product.rating > 0 ? (
                   <div className="pro-details-rating-wrap">
                     <div className="pro-details-rating">
@@ -303,14 +316,14 @@ function ProductModal(props) {
                       <button
                         onClick={() =>
                           setQuantityCount(
-                            quantityCount < productStock - productCartQty
-                            && quantityCount < 5
+                            quantityCount < productStock - productCartQty &&
+                              quantityCount < 5
                               ? quantityCount + 1
                               : quantityCount
                           )
                         }
                         className="inc qtybutton"
-                      > 
+                      >
                         +
                       </button>
                     </div>
@@ -404,6 +417,7 @@ ProductModal.propTypes = {
   product: PropTypes.object,
   show: PropTypes.bool,
   wishlistitem: PropTypes.object,
+  wholesaler: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
