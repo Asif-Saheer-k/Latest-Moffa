@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const generateToken = require("../utils/jwtToken");
+const sms = require("../middleware/sms");
 const collection = require("../config/collection");
 const objectId = require("mongodb").ObjectId;
 const verification = require("../middleware/tiwllioVerification");
@@ -672,6 +673,11 @@ const DispatchOrder = asyncHandler(async (req, res) => {
   const phone = req.body.phone;
   //order ID
   const ORDER_ID = req.body.OrderID;
+  //tracking id
+  const TrackingID = req.body.TrackingID;
+  //delivery provider
+  const DeleiveryProvider = req.body.DeliveryAgent;
+  sms.sendDispatchSMS(phone, TrackingID, DeleiveryProvider, DispatchId);
 
   //change order status function
   const ChangeOrderStatus = await db
@@ -719,9 +725,12 @@ const updatedWallet = asyncHandler(async (req, res) => {
   }
 });
 const ChangeOrderStatus = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const newstatus = req.body.status;
   const order_id = req.body.orderId;
+  const deatails = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .findOne({});
   const change = await db
     .get()
     .collection(collection.ORDER_COLLECTION)

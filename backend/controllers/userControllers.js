@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const generateToken = require("../utils/jwtToken");
+const sms = require("../middleware/sms");
 const collection = require("../config/collection");
 const Paytm = require("paytmchecksum");
 const verification = require("../middleware/tiwllioVerification");
@@ -20,6 +21,9 @@ const razorpay = new Razorpay({
 //user register controller with otp verification
 const registerUser = asyncHandler(async (req, res) => {
   req.session.userDeatails = req.body;
+  const OTP = Math.random().toFixed(6).split(".")[1];
+  console.log(OTP);
+  req.session.userDeatails.otp = OTP;
   const phoneNumber = req.session.userDeatails.phone;
   // Phone number cheacking in database
   const checkPhone = await db
@@ -37,7 +41,8 @@ const registerUser = asyncHandler(async (req, res) => {
     if (checkPhoneWholsesaler) {
       res.status(401).json("Phone Number Already Exists");
     } else {
-      // no registerd number
+      // OTP sented function
+      sms.sendOTP(phoneNumber, OTP);
       const code = await verification.sendOtp(req.session.userDeatails.phone);
       if (code) {
         res.status(200).json("OTP Sented Successfully");
@@ -50,11 +55,18 @@ const registerUser = asyncHandler(async (req, res) => {
 
 //reset otp function
 const ResetOtpSend = asyncHandler(async (req, res) => {
-  const code = await verification.sendOtp(req.session.userDeatails.phone);
-  if (code) {
-    res.status(200).json("OTP Sented Successfully");
+  if (req.session.userDeatails) {
+    const phoneNumber = req.session.userDeatails.phone;
+    const OTP = req.session.userDeatails.otp;
+    sms.sendOTP(phoneNumber, OTP);
+    // const code = await verification.sendOtp(req.session.userDeatails.phone);
+    if (code) {
+      res.status(200).json("OTP Sented Successfully");
+    } else {
+      res.status(401).json("Invalid Phone number");
+    }
   } else {
-    res.status(401).json("Invalid Phone number");
+    res.status(500).json("Somthing went wrong");
   }
 });
 
@@ -73,30 +85,31 @@ const Phoneverification = asyncHandler(async (req, res) => {
   } else {
     ID = 10000000;
   }
+  if (req.session.userDeatails) {
+    const eneterOtp = req.params.otp;
+    const userData = req.session.userDeatails;
+    userData.CUST_ID = ID;
 
-  const Otp = req.params.otp;
-  const userData = req.session.userDeatails;
-  userData.CUST_ID = ID;
-
-  if (!req.session.userDeatails) {
-    res.status(500).json("Somthing went wrong");
-  }
-  const phoneNumber = req.session.userDeatails.phone;
-  userData.password = await bcrypt.hash(userData.password, 10);
-  const code = await verification.CheckOtp(phoneNumber, Otp);
-  // check valid true or false
-  if (code.valid) {
-    const User = await db
-      .get()
-      .collection(collection.USER_COLLECTION)
-      .insertOne(userData);
-    if (User) {
-      res.status(200).json("successfuly reagisted");
+    const phoneNumber = req.session.userDeatails.phone;
+    const OTP = req.session.userDeatails.otp;
+    userData.password = await bcrypt.hash(userData.password, 10);
+    // const code = await verification.CheckOtp(phoneNumber, Otp);
+    // check valid true or false
+    if (eneterOtp == OTP) {
+      const User = await db
+        .get()
+        .collection(collection.USER_COLLECTION)
+        .insertOne(userData);
+      if (User) {
+        res.status(200).json("successfuly reagisted");
+      } else {
+        res.status(500).json("Somthing went wrong");
+      }
     } else {
-      res.status(500).json("Somthing went wrong");
+      res.status(401).json("Please Verify OTP");
     }
   } else {
-    res.status(401).json("Please Verify OTP");
+    res.status(500).json("Somthing went wrong");
   }
 });
 
@@ -171,7 +184,6 @@ const loginUser = asyncHandler(async (req, res) => {
       }
     });
   } else {
-    console.log(Phone);
     const Wholesaler = await db
       .get()
       .collection(collection.WHOLESALER_COLLECTION)
@@ -247,13 +259,16 @@ const loginUser = asyncHandler(async (req, res) => {
 //otp login verify phone number function
 const VerifyPhone = asyncHandler(async (req, res) => {
   const phoneNumber = req.body.phone;
+  const OTP = Math.random().toFixed(6).split(".")[1];
   const userDeatails = await db
     .get()
     .collection(collection.USER_COLLECTION)
     .findOne({ phone: phoneNumber });
+  userDeatails.otp = OTP;
   if (userDeatails) {
     //send otp function
-    const code = await verification.sendOtp(phoneNumber);
+    const code = sms.sendOTP(phoneNumber, OTP);
+    // const code = await verification.sendOtp(phoneNumber);
     if (code) {
       req.session.userverify = true;
       req.session.otpLogin = userDeatails;
@@ -266,10 +281,12 @@ const VerifyPhone = asyncHandler(async (req, res) => {
       .get()
       .collection(collection.WHOLESALER_COLLECTION)
       .findOne({ phone: phoneNumber });
+    wholesalerDeatails.otp = OTP;
     req.session.userverify = false;
     req.session.otpLogin = wholesalerDeatails;
     if (wholesalerDeatails) {
-      const code = await verification.sendOtp(phoneNumber);
+      sms.sendOTP(phoneNumber, OTP);
+      // const code = await verification.sendOtp(phoneNumber);
       res.status(200).json("OTP Sented Successfuly");
     } else {
       res.status(401).json("Invalid Phone Number");
@@ -285,8 +302,8 @@ const cheackOtp = asyncHandler(async (req, res) => {
   //otp check function
   if (userverify == true) {
     const user = true;
-    const code = await verification.CheckOtp(users.phone, Otp);
-    if (code.valid) {
+    // const code = await verification.CheckOtp(users.phone, Otp);
+    if (users.otp == Otp) {
       const userId = users.CUST_ID;
       let cartItems = await db
         .get()
@@ -344,8 +361,8 @@ const cheackOtp = asyncHandler(async (req, res) => {
       res.status(401).json("Invalid Otp Please verify Otp");
     }
   } else {
-    const code = await verification.CheckOtp(users.phone, Otp);
-    if (code.valid) {
+    // const code = await verification.CheckOtp(users.phone, Otp);
+    if (users.otp == Otp) {
       const userId = users.CUST_ID;
       let cartItems = await db
         .get()
