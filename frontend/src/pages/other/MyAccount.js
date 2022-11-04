@@ -76,7 +76,7 @@ const MyAccount = ({ location, user }) => {
         };
         const { data } = await axios.post(
           "/api/user/user-deatails-get",
-          { users, id},
+          { users, id },
           config
         );
         setAddress(data?.Address);
@@ -307,15 +307,26 @@ const MyAccount = ({ location, user }) => {
               razorpaySignature: response.razorpay_signature,
             };
             try {
-              const result = await axios.post("api/user/add-amount-to-wallet", {
-                Amount,
-                id,
-                datas,
-              });
-              setLoading(true);
-              setLoading(false);
-              handleClose();
-              history.push("/my-account");
+              const { data } = await axios.post(
+                "/api/user/verify-razorpay-payment",
+                datas
+              );
+              try {
+                const result = await axios.post(
+                  "/api/user/add-amount-to-wallet",
+                  {
+                    Amount,
+                    id,
+                    datas,
+                  }
+                );
+                setLoading(true);
+                setLoading(false);
+                handleClose();
+                history.push("/my-account");
+              } catch (error) {
+                history.push("/error");
+              }
             } catch (error) {
               history.push("/error");
             }

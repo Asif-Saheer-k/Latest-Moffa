@@ -28,8 +28,7 @@ const MyOrders = ({ location, user }) => {
       try {
         const { data } = await axios.get(`/api/user/get-my-orders/${userId}`);
         setMyorders(data);
-      } catch (error) {
-      }
+      } catch (error) {}
     })();
   }, []);
 
@@ -66,7 +65,7 @@ const MyOrders = ({ location, user }) => {
         <Breadcrumb />
         <div className="cart-main-area pt-90 pb-100">
           <div className="container">
-            {Myorders && Myorders.length >= 1 && Products.length >=1 ? (
+            {Myorders && Myorders.length >= 1 && Products.length >= 1 ? (
               <Fragment>
                 {Myorders.map((items, index) => {
                   return (
@@ -76,12 +75,18 @@ const MyOrders = ({ location, user }) => {
                         <br />
                         ORDER ID:{items.Id}
                         <br />
-                        {items.wallet ? <>AMOUNT :{parseInt(items?.Total)+parseInt(items.wallet)}</>:<>AMOUNT:{items.Total}</>}
-                      
-                        {items?.wallet && ( 
-                          <p>WALLET APPLY AMOUNT:{items.wallet}</p> 
+                        {items.wallet ? (
+                          <>
+                            AMOUNT :
+                            {parseInt(items?.Total) + parseInt(items.wallet)}
+                          </>
+                        ) : (
+                          <>AMOUNT:{items.Total}</>
                         )}
-                      </p> 
+                        {items?.wallet && (
+                          <p>WALLET APPLY AMOUNT:{items.wallet}</p>
+                        )}
+                      </p>
                       <div className="row">
                         <div className="col-12">
                           <div className="table-content table-responsive cart-table-content">
@@ -98,9 +103,10 @@ const MyOrders = ({ location, user }) => {
                                 </tr>
                               </thead>
                               {items?.Product.map((single, index) => {
-                                const result = Products.find(  
+                                const result = Products.find(
                                   (item) => item.id === single.ProductID
                                 );
+                                console.log(result, "DDCCC");
                                 var finalProductPrice;
                                 var finalDiscountedPrice;
                                 if (user.user == true) {
@@ -117,7 +123,9 @@ const MyOrders = ({ location, user }) => {
                                     finalDiscountedPrice =
                                       result?.price - discountPrice;
                                   } else {
-                                    finalProductPrice = result?.price;
+                                    console.log("nodicvoutnn");
+                                    console.log(result.price);
+                                    finalDiscountedPrice = result?.price;
                                   }
                                 } else {
                                   finalProductPrice = result?.price;
@@ -158,14 +166,18 @@ const MyOrders = ({ location, user }) => {
 
                                       <td className="product-price-cart">
                                         <Fragment>
-                                          <span className="amount old">
-                                            {"₹" + finalProductPrice}
-                                          </span>
-                                          <span className="amount">
-                                            {"₹" + finalDiscountedPrice}
-                                          </span>
+                                         
+                                              {" "}
+                                              {finalProductPrice&&<span className="amount old">
+                                                {"₹" + finalProductPrice}
+                                              </span>}
+                                              <span className="amount">
+                                                {"₹" + finalDiscountedPrice}
+                                              </span>
+                                            
+                                        
                                         </Fragment>
-                                      </td>
+                                      </td>  
 
                                       <td className="product-quantity">
                                         <span className="amount">

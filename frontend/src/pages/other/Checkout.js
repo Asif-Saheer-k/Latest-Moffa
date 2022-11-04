@@ -431,12 +431,21 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                         razorpayOrderId: response.razorpay_order_id,
                         razorpaySignature: response.razorpay_signature,
                       };
+
                       try {
-                        const result = await axios.post(
-                          "api/user/razorpay-payment/success",
+                        const verification = await axios.post(
+                          "/api/user/verify-razorpay-payment",
                           data
                         );
-                        navigate.push("/success");
+                        try {
+                          const result = await axios.post(
+                            "api/user/razorpay-payment/success",
+                            data
+                          );
+                          navigate.push("/success");
+                        } catch (error) {
+                          navigate.push("/error");
+                        }
                       } catch (error) {
                         navigate.push("/error");
                       }
@@ -576,11 +585,19 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                           razorpaySignature: response.razorpay_signature,
                         };
                         try {
-                          const result = await axios.post(
-                            "api/user/razorpay-payment/success",
+                          const verification = await axios.post(
+                            "/api/user/verify-razorpay-payment",
                             data
                           );
-                          navigate.push("/success");
+                          try {
+                            const result = await axios.post(
+                              "api/user/razorpay-payment/success",
+                              data
+                            );
+                            navigate.push("/success");
+                          } catch (error) {
+                            navigate.push("/error");
+                          }
                         } catch (error) {
                           navigate.push("/error");
                         }
@@ -705,12 +722,12 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     setState(address.State);
   };
   const AddAddresFrom = (details) => {
-    console.log(details,"D");
+    console.log(details, "D");
     setValue("FromName", details.FromName);
     setValue("FromLastName", details.FromLastName);
     setValue("FromStreetAddress", details.FromStreetAddress);
     setValue("FromTownCity", details.FromTownCity);
-    setValue("FromPostcode", details.FromPostcode);
+    setValue("FromPincode", details.FromPincode);
     setValue("FromPhoneNumber", details.FromPhoneNumber);
     setValue("FromEmail", details.FromEmail);
     setFromstate(details.FromState);
@@ -1164,7 +1181,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                                 <p>
                                                   {fromaddress.FromTownCity},
                                                   {fromaddress.FromState},
-                                                  {fromaddress.FromPostcode}
+                                                  {fromaddress.FromPincode}
                                                 </p>
                                                 <p>{fromaddress.FromEmail}</p>
                                                 <p>
@@ -1182,9 +1199,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                                 >
                                                   ADD
                                                 </a>
-                                                <a onClick={DelateAddress}>
-                                                  Delete
-                                                </a>
+                                               
                                               </div>
                                             </div>
                                           </div>
@@ -1361,7 +1376,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                               <label>Postcode / ZIP</label>
                               <input
                                 type="text"
-                                {...register("FromPostcode", {
+                                {...register("FromPincode", {
                                   required: "*required",
                                   pattern: {
                                     value: /^[0-9]+$/,
@@ -1369,7 +1384,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                   },
                                 })}
                                 onKeyUp={() => {
-                                  trigger("FromPostcode");
+                                  trigger("FromPincode");
                                 }}
                               />
                               {errors.FromPostcode && (

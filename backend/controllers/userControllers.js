@@ -8,6 +8,7 @@ const verification = require("../middleware/tiwllioVerification");
 const PaytmChecksum = require("../utils/PaytmCecksum");
 const fromidable = require("formidable");
 const { v4: uuidv4 } = require("uuid");
+const crypto = require("crypto");
 const https = require("https");
 const Razorpay = require("razorpay");
 
@@ -425,7 +426,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
   if (!user) {
     const FromName = req.body.FromName;
     const FromLastName = req.body.FromLastName;
-    const FromPostcode = req.body.FromPostcode;
+    const FromPincode = req.body.FromPincode;
     const FromStreetAddress = req.body.FromStreetAddress;
     const FromTownCity = req.body.FromTownCity;
     const FromPhoneNumber = req.body.FromPhoneNumber;
@@ -434,7 +435,7 @@ const PaytmIntegration = asyncHandler(async (req, res) => {
     fromAddress = {
       FromName,
       FromLastName,
-      FromPostcode,
+      FromPincode,
       FromStreetAddress,
       FromTownCity,
       FromPhoneNumber,
@@ -1632,7 +1633,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
   if (!user) {
     const FromName = req.body.FromName;
     const FromLastName = req.body.FromLastName;
-    const FromPincode = req.body.FromPostcode;
+    const FromPincode = req.body.FromPincode;
     const FromStreetAddress = req.body?.FromStreetAddress;
     const FromTownCity = req.body.FromTownCity;
     const FromPhoneNumber = req.body.FromPhoneNumber;
@@ -1797,30 +1798,40 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       req.session.orderProducts = OrderObject;
     }
   }
+
   // storing order object in session
   // req.session.orderProducts = OrderObject;
   //find quantity function
   const orderItems = req.session.orderProducts;
-  const uuid = uuidv4();
+  var stock = true;
   OderProducts.map(async (products) => {
-    const product = await db
-      .get()
-      .collection(collection.PRODUCT_COLLECTION)
-      .findOne({ id: products.ProductID });
-    product.variation.map((obj) => {
-      if (obj.color == products.color) {
-        obj.size.map(async (sizesObj) => {
-          if (sizesObj.name == products.size) {
-            if (sizesObj.stock != 0) {
-              res.status(200).json(orderItems);
-            } else {
-              res.status(500).json("Somthing Went Wrong");
+    if (stock) {
+      const product = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTION)
+        .findOne({ id: products.ProductID });
+      product.variation.map((obj) => {
+        if (obj.color == products.color) {
+          obj.size.map(async (sizesObj) => {
+            if (sizesObj.name == products.size) {
+              if (sizesObj.stock != 0) {
+                stock = true;
+              } else {
+                stock = false;
+              }
             }
-          }
-        });
-      }
-    });
+          });
+        }
+      });
+    }
   });
+  console.log(stock, "Dd");
+  if (stock) {
+    console.log("sucees");
+    res.status(200).json(orderItems);
+  } else {
+    res.status(403).json("Product out stock");
+  }
 });
 const razorpayIntegration = asyncHandler(async (req, res) => {
   const orderObject = req.session.orderProducts;
@@ -1965,6 +1976,19 @@ const AddAmountToWallet = asyncHandler(async (req, res) => {
     res.status(500).json("Somthing Went wrong");
   }
 });
+
+//razorpay payment verification function
+const verificationPayment = asyncHandler(async (req, res) => {
+  const { razorpaySignature, razorpayOrderId, razorpayPaymentId } = req.body;
+  let hmac = crypto.createHmac("sha256", process.env.SECRET_ID);
+  hmac.update(razorpayOrderId + "|" + razorpayPaymentId);
+  hmac = hmac.digest("hex");
+  if (hmac == razorpaySignature) {
+    res.status(200).json("Payment Success");
+  } else {
+    res.status(500).json("Payment Failed");
+  }
+});
 module.exports = {
   addToCart,
   registerUser,
@@ -1994,4 +2018,5 @@ module.exports = {
   deleteuserCart,
   AddAmountToWalletRazorpay,
   AddAmountToWallet,
+  verificationPayment,
 };
