@@ -180,7 +180,8 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         } else {
           Post = "Normal";
         }
-        if (payment == "paytm") {
+        //remove h then active paytm remove 
+        if (payment == "paytmh") {
           var users = user;
           if (users.user) {
             const OderProducts = cartItems;
@@ -1635,14 +1636,14 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                   </ul>
                                   <ul>
                                     <li className="your-order-shipping">
-                                      SPEED POST
+                                      Indian Post
                                     </li>
                                     <li>
                                       <FormControlLabel
                                         value=" Razprpay"
                                         control={<Radio />}
                                         onChange={(e) => {
-                                          setCourierservice("speed post");
+                                          setCourierservice("Indian Post");
                                         }}
                                       />
                                     </li>
@@ -1652,20 +1653,20 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                             </RadioGroup>
                           </FormControl>
 
-                          <FormControl>
+                          {/* <FormControl>
                             <RadioGroup
                               aria-labelledby="demo-radio-buttons-group-label"
                               defaultValue="paytm"
                               name="radio-buttons-group"
-                            >
-                              <div className="discount-code-wrapper mt-2">
+                            > */}
+                              {/* <div className="discount-code-wrapper mt-2">
                                 <div className="title-wrap">
                                   <h4 className="cart-bottom-title section-bg-gray">
                                     Select Payment Methode
                                   </h4>
-                                </div>
+                                </div> */}
 
-                                <div className="your-order-bottom mt-2">
+                                {/* <div className="your-order-bottom mt-2">
                                   <ul>
                                     <li className="your-order-shipping">
                                       Paytm
@@ -1685,7 +1686,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                       Razorpay
                                     </li>
                                     <li>
-                                      <FormControlLabel
+                                        <FormControlLabel
                                         value=" Razprpay"
                                         control={<Radio />}
                                         onChange={(e) => {
@@ -1694,16 +1695,16 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                       />
                                     </li>
                                   </ul>
-                                </div>
-                              </div>
+                                </div> */}
+                              {/* </div>
                             </RadioGroup>
-                          </FormControl>
+                          </FormControl> */}
                         </div>
                       </div>
                       <div className="place-order mt-25">
                         <button type="submit" className="btn-hover">
                           Place Order
-                        </button>
+                        </button>  
                       </div>
                     </div>
                   </div>

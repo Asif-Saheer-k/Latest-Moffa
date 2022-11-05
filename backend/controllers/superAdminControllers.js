@@ -667,17 +667,18 @@ const DeleteStock = asyncHandler(async (req, res) => {
 });
 //dispatch order function
 const DispatchOrder = asyncHandler(async (req, res) => {
+  console.log(req.body, "djjdjdhejdj");
   //dispatch ID
-  const DispatchId = req.body.DisPatchId;
+  const Link = req.body.link;
   //phone number
   const phone = req.body.phone;
   //order ID
   const ORDER_ID = req.body.OrderID;
   //tracking id
-  const TrackingID = req.body.TrackingID;
+  const TrackingID = req.body.TrackingId;
   //delivery provider
-  const DeleiveryProvider = req.body.DeliveryAgent;
-  sms.sendDispatchSMS(phone, TrackingID, DeleiveryProvider, DispatchId);
+  const DeleiveryProvider = req.body.Courier;
+  sms.sendDispatchSMS(phone, TrackingID, DeleiveryProvider, Link);
 
   //change order status function
   const ChangeOrderStatus = await db
@@ -742,7 +743,6 @@ const ChangeOrderStatus = asyncHandler(async (req, res) => {
         },
       }
     );
-  console.log(change);
   if (change) {
     res.status(200).json("Success");
   } else {
