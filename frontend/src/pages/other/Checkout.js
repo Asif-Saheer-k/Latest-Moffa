@@ -180,7 +180,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         } else {
           Post = "Normal";
         }
-        //remove h then active paytm remove 
+        //remove h then active paytm remove
         if (payment == "paytmh") {
           var users = user;
           if (users.user) {
@@ -351,6 +351,8 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             }
           }
         } else {
+          const date = new Date().toLocaleDateString();
+
           var users = user;
           if (users.user) {
             const OderProducts = cartItems;
@@ -370,6 +372,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
             const Service = courier;
             const State = state;
             const user = true;
+            const Date = date;
             const payment_type = "razorpay";
             try {
               const config = {
@@ -398,11 +401,11 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                   State,
                   Service,
                   user,
+                  Date,
                   payment_type,
                 },
                 config
               );
-
               if (data) {
                 try {
                   const config = {
@@ -438,6 +441,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                           "/api/user/verify-razorpay-payment",
                           data
                         );
+
                         try {
                           const result = await axios.post(
                             "api/user/razorpay-payment/success",
@@ -487,7 +491,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
           } else {
             if (fromstate) {
               const OderProducts = cartItems;
-              const totamAmount = cartTotalPrice.toFixed(0);
+              let totamAmount = cartTotalPrice.toFixed(0);
               const DeliveyCharge = deliveryCharge;
               const DeliveryType = Post;
               const CUST_ID = users.CUST_ID;
@@ -501,7 +505,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
               const TownCity = data.TownCity;
               const FromTownCity = data.FromTownCity;
               const Postcode = data.Postcode;
-              const FromPostcode = data.FromPostcode;
+              const FromPincode = data.FromPincode;
               const PhoneNumber = data.PhoneNumber;
               const FromPhoneNumber = data.FromPhoneNumber;
               const Email = data.Email;
@@ -511,8 +515,10 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
               const FromState = fromstate;
               const Service = courier;
               const user = false;
+              const Date = date;
               const payment_type = "razorpay";
               var Applywallet = 0;
+
               if (walletApplyAmount) {
                 Applywallet = walletApplyAmount;
               }
@@ -541,7 +547,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     TownCity,
                     FromTownCity,
                     Postcode,
-                    FromPostcode,
+                    FromPincode,
                     PhoneNumber,
                     FromPhoneNumber,
                     Email,
@@ -552,6 +558,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     Service,
                     user,
                     Applywallet,
+                    Date,
                     payment_type,
                   },
                   config
@@ -595,6 +602,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                               "api/user/razorpay-payment/success",
                               data
                             );
+                            console.log(result);
                             navigate.push("/success");
                           } catch (error) {
                             navigate.push("/error");
@@ -723,7 +731,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     setState(address.State);
   };
   const AddAddresFrom = (details) => {
-    console.log(details, "D");
     setValue("FromName", details.FromName);
     setValue("FromLastName", details.FromLastName);
     setValue("FromStreetAddress", details.FromStreetAddress);
@@ -833,7 +840,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                       <h3>TO:</h3>
                       {user && (
                         <>
-                          {addaddress && (
+                          {addaddress.Name && (
                             <Accordion defaultActiveKey="0">
                               <Card className="single-my-account mb-20">
                                 <Card.Header className="panel-heading">
@@ -1200,7 +1207,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                                 >
                                                   ADD
                                                 </a>
-                                               
                                               </div>
                                             </div>
                                           </div>
@@ -1659,14 +1665,14 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                               defaultValue="paytm"
                               name="radio-buttons-group"
                             > */}
-                              {/* <div className="discount-code-wrapper mt-2">
+                          {/* <div className="discount-code-wrapper mt-2">
                                 <div className="title-wrap">
                                   <h4 className="cart-bottom-title section-bg-gray">
                                     Select Payment Methode
                                   </h4>
                                 </div> */}
 
-                                {/* <div className="your-order-bottom mt-2">
+                          {/* <div className="your-order-bottom mt-2">
                                   <ul>
                                     <li className="your-order-shipping">
                                       Paytm
@@ -1696,7 +1702,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                     </li>
                                   </ul>
                                 </div> */}
-                              {/* </div>
+                          {/* </div>
                             </RadioGroup>
                           </FormControl> */}
                         </div>
@@ -1704,7 +1710,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                       <div className="place-order mt-25">
                         <button type="submit" className="btn-hover">
                           Place Order
-                        </button>  
+                        </button>
                       </div>
                     </div>
                   </div>

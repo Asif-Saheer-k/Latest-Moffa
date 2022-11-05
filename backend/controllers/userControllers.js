@@ -1633,6 +1633,7 @@ const verifyWalletAmount = asyncHandler((req, res) => {
 });
 const createOrderObjct = asyncHandler(async (req, res) => {
   var fromAddress;
+
   let Amount = req.body.totamAmount;
   const ID = req.body.CUST_ID;
   const Name = req.body.Name;
@@ -1674,7 +1675,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
   if (!user) {
     Role = "wholesaler";
     var Applywallet = req.body?.Applywallet;
-    if (Applywallet > 0 && Applywallet < Amount) {
+    if (Applywallet > 0) {
       Amount = Amount - Applywallet;
       req.session.Applywallet = Applywallet;
     }
@@ -1707,14 +1708,24 @@ const createOrderObjct = asyncHandler(async (req, res) => {
         }
       );
   }
+
   if (!user) {
-    await db
+    const update = await db
       .get()
       .collection(collection.WHOLESALER_COLLECTION)
       .updateOne(
         { CUST_ID: ID },
         {
           $set: { FromAddress: fromAddress },
+        }
+      );
+    await db
+      .get()
+      .collection(collection.WHOLESALER_COLLECTION)
+      .updateOne(
+        { CUST_ID: ID },
+        {
+          $set: { Address: address },
         }
       );
   }
@@ -1755,7 +1766,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       .collection(collection.PRODUCT_COLLECTION)
       .updateOne({ id: items.ProductID }, { $inc: { saleCount: 1 } });
   });
-  const date = new Date().toLocaleDateString();
+  const date = req.body.Date;
   //create order object
   if (Applywallet > 0) {
     const OrderObject = {
@@ -1782,7 +1793,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       const OrderObject = {
         Id: OrderId,
         CUST_ID: ID,
-        Total: Amount,
+        Total: parseInt(Amount),
         Product: OderProducts,
         Address: address,
         Date: date,
@@ -1799,7 +1810,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       const OrderObject = {
         Id: OrderId,
         CUST_ID: ID,
-        Total: Amount,
+        Total: parseInt(Amount),
         Product: OderProducts,
         Address: address,
         FromAddress: fromAddress,
@@ -1842,7 +1853,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       });
     }
   });
-  console.log(stock, "Dd");
   if (stock) {
     console.log("sucees");
     res.status(200).json(orderItems);
