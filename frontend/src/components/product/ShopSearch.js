@@ -11,8 +11,14 @@ const ShopSearch = ({ getSortParams }) => {
           <input
             type="text"
             onChange={(e) => {
-              getSortParams("name",e.target.value);
-              setActiveSort(e);
+              let result = e.target.value.slice(0, 4);
+              if (result == "PRO_") {
+                getSortParams("id", e.target.value);
+                setActiveSort(e);
+              } else {
+                getSortParams("name", e.target.value);
+                setActiveSort(e);
+              }
             }}
             placeholder="Search here..."
           />
@@ -25,7 +31,7 @@ const ShopSearch = ({ getSortParams }) => {
   );
 };
 ShopSearch.propTypes = {
-  getSortParams: PropTypes.func
+  getSortParams: PropTypes.func,
 };
 
 export default ShopSearch;

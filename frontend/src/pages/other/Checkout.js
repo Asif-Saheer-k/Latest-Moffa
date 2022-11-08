@@ -26,6 +26,7 @@ import {
 
 const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [addaddress, setAddress] = useState({});
+  const [viewDtdc, setViewDtdc] = useState(false);
   const [fromaddress, setFromaddress] = useState({});
   const [checked, setChecked] = React.useState(false);
   const [invalid, setInvalid] = useState(false);
@@ -40,12 +41,11 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [cart, setCart] = useState([]);
   const [payment, setPayment] = useState("paytm");
   const [orderObject, setorderObject] = useState({});
-  const [courier, setCourierservice] = useState("DTDC");
+  const [courier, setCourierservice] = useState("Indian Post");
   const [admin, setAdmin] = useState();
-
   const { pathname } = location;
   const { addToast } = useToasts();
-
+  var toatalQuantity = 0;
   const navigate = useHistory();
   let cartTotalPrice = 0;
 
@@ -65,7 +65,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     (async function () {
       try {
         const { data } = await axios.get("/api/superAdmin/view-all-products");
-        console.log(data, "A");
+
         setProducts(data);
       } catch (error) {}
     })();
@@ -95,31 +95,152 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     }
   }, [produt]);
 
+  // useEffect(() => {
+  //   if (checked) {
+  //     if (state) {
+  //       if (
+  //         state == "Andhra Pradesh" ||
+  //         state == "Karnataka" ||
+  //         state == "Tamil Nadu" ||
+  //         state == "Telangana" ||
+  //         state == "Kerala"
+  //       ) {
+  //         setDeliveryCharges(70);
+  //       } else {
+  //         setDeliveryCharges(100);
+  //       }
+  //     } else {
+  //       addToast("Please Select State", {
+  //         appearance: "error",
+  //         autoDismiss: true,
+  //       });
+  //       setChecked(false);
+  //     }
+  //   } else {
+  //     setDeliveryCharges(50);
+  //   }
+  // }, [checked, state]);
+
   useEffect(() => {
-    if (checked) {
-      if (state) {
-        if (
-          state == "Andhra Pradesh" ||
-          state == "Karnataka" ||
-          state == "Tamil Nadu" ||
-          state == "Telangana" ||
-          state == "Kerala"
-        ) {
+    if (
+      state == "Kerala" ||
+      state == "Karnataka" ||
+      state == "Tamil Nadu" ||
+      state == "Andhra Pradesh" ||
+      state == "Telangana" ||
+      state == "Goa" ||
+      state == "Delhi" ||
+      state == "Mumbai"
+    ) {
+      setViewDtdc(true);
+    }
+    const grms = toatalQuantity * 300;
+    if (courier == "DTDC") {
+      if (state == "Kerala") {
+        if (grms < 500) {
+          setDeliveryCharges(60);
+          console.log("45");
+        } else if (grms <= 1000 && grms > 500) {
           setDeliveryCharges(70);
+          console.log("55");
+        } else if (grms > 1000 && grms <= 5000) {
+          const kg = (grms / 500 - 2) * 25;
+          setDeliveryCharges(70 + kg);
+          console.log("25");
         } else {
-          setDeliveryCharges(100);
+          const kg = (grms / 1000) * 45;
+          console.log(kg, "Dkdkdkdk");
+          setDeliveryCharges(kg + 15);
+        }
+      } else if (state == "Karnataka" || state == "Tamil Nadu") {
+        if (grms < 500) {
+          console.log("60");
+          setDeliveryCharges(75);
+        } else if (grms <= 1000 && grms > 500) {
+          console.log("70");
+          setDeliveryCharges(85);
+        } else if (grms > 1000 && grms <= 5000) {
+          const kg = (grms / 500 - 2) * 35;
+          console.log(kg);
+          setDeliveryCharges(85 + kg);
+          console.log("35");
+        } else {
+          const kg = (grms / 1000) * 60;
+          console.log(kg);
+          setDeliveryCharges(kg + 15);
+        }
+      } else if (
+        state == "Andhra Pradesh" ||
+        state == "Telangana" ||
+        state == "Goa"
+      ) {
+        if (grms < 500) {
+          console.log("65");
+          setDeliveryCharges(80);
+        } else if (grms <= 1000 && grms > 500) {
+          console.log("75");
+          setDeliveryCharges(90);
+        } else if (grms > 1000 && grms <= 5000) {
+          const kg = (grms / 500 - 2) * 40;
+          console.log(kg);
+          setDeliveryCharges(90 + kg);
+          console.log("40");
+        } else {
+          const kg = (grms / 1000) * 65;
+          console.log(kg);
+          setDeliveryCharges(kg + 15);
+        }
+      } else if (state == "Delhi" || state == "Mumbai") {
+        if (grms < 500) {
+          console.log("90");
+          setDeliveryCharges(105);
+        } else if (grms <= 1000 && grms > 500) {
+          console.log("100");
+          setDeliveryCharges(115);
+        } else if (grms > 1000 && grms <= 5000) {
+          const kg = (grms / 500 - 2) * 55;
+          console.log(kg);
+          setDeliveryCharges(115 + kg);
+          console.log("55");
+        } else {
+          const kg = (grms / 1000) * 85;
+          console.log(kg);
+          setDeliveryCharges(kg + 15);
         }
       } else {
-        addToast("Please Select State", {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        setChecked(false);
+        setViewDtdc(false);
+        setCourierservice("Indian Post")
+      }
+      if (!state) {
+        if (grms < 500) {
+          setDeliveryCharges(60);
+          console.log("45");
+        } else if (grms <= 1000 && grms > 500) {
+          setDeliveryCharges(70);
+          console.log("55");
+        } else if (grms > 1000 && grms <= 5000) {
+          const kg = (grms / 5000 - 2) * 25;
+          console.log(kg);
+          setDeliveryCharges(70 + kg);
+          console.log("25");
+        } else {
+          const kg = (grms / 1000) * 45;
+          console.log(kg);
+          setDeliveryCharges(kg);
+        }
       }
     } else {
-      setDeliveryCharges(50);
+      if (toatalQuantity == 1) {
+        setDeliveryCharges(50);
+      } else if (toatalQuantity == 2) {
+        setDeliveryCharges(70);
+      } else if (toatalQuantity == 3) {
+        setDeliveryCharges(90);
+      } else {
+        setDeliveryCharges(100);
+      }
     }
-  }, [checked, state]);
+  }, [toatalQuantity, state, cartItems, courier]);
 
   function buildForm({ action, params }) {
     const form = document.createElement("form");
@@ -352,7 +473,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
           }
         } else {
           const date = new Date().toLocaleDateString();
-
           var users = user;
           if (users.user) {
             const OderProducts = cartItems;
@@ -968,6 +1088,8 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                 <option>Select a State</option>
                               )}
                               <option>Kerala</option>
+                              <option>Mumbai</option>
+                              <option>Delhi</option>
                               <option>Andhra Pradesh</option>
                               <option>Arunachal Pradesh</option>
                               <option>Assam</option>
@@ -1287,6 +1409,8 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                   <option>Select a State</option>
                                 )}
                                 <option>Kerala</option>
+                                <option>Delhi</option>
+                                <option>Mumbai</option>
                                 <option>Andhra Pradesh</option>
                                 <option>Arunachal Pradesh</option>
                                 <option>Assam</option>
@@ -1313,6 +1437,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                 <option>Tripura</option>
                                 <option>Uttar Pradesh</option>
                                 <option>Uttarakhand</option>
+                                <option>West Bengal</option>
                                 <option>West Bengal</option>
                               </select>
                             </div>
@@ -1512,6 +1637,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                             <ul>
                               {cartItems.map((cartItem, key) => {
                                 var offer;
+
                                 const date = new Date().toLocaleDateString();
                                 if (cartItem?.Deal) {
                                   cartItem.Deal.map((items) => {
@@ -1554,7 +1680,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                       finalProductPrice * cartItem.quantity);
                                 cartTotalPrice += deliveryCharge;
                                 setprice(cartTotalPrice);
-
+                                toatalQuantity += cartItem.quantity;
                                 return (
                                   <li key={key}>
                                     <span className="order-middle-left">
@@ -1615,7 +1741,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                           <FormControl>
                             <RadioGroup
                               aria-labelledby="demo-radio-buttons-group-label"
-                              defaultValue="paytm"
+                              defaultValue="Indian Post"
                               name="radio-buttons-group"
                             >
                               <div className="discount-code-wrapper mt-2">
@@ -1626,27 +1752,29 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                 </div>
 
                                 <div className="your-order-bottom mt-2">
-                                  <ul>
-                                    <li className="your-order-shipping">
-                                      DTDC
-                                    </li>
-                                    <li>
-                                      <FormControlLabel
-                                        value="paytm"
-                                        control={<Radio />}
-                                        onChange={(e) => {
-                                          setCourierservice("dtdc");
-                                        }}
-                                      />
-                                    </li>
-                                  </ul>
+                                  {viewDtdc && (
+                                    <ul>
+                                      <li className="your-order-shipping">
+                                        DTDC
+                                      </li>
+                                      <li>
+                                        <FormControlLabel
+                                          value="DTDC"
+                                          control={<Radio />}
+                                          onChange={(e) => {
+                                            setCourierservice("DTDC");
+                                          }}
+                                        />
+                                      </li>
+                                    </ul>
+                                  )}
                                   <ul>
                                     <li className="your-order-shipping">
                                       Indian Post
                                     </li>
                                     <li>
                                       <FormControlLabel
-                                        value=" Razprpay"
+                                        value="Indian Post"
                                         control={<Radio />}
                                         onChange={(e) => {
                                           setCourierservice("Indian Post");

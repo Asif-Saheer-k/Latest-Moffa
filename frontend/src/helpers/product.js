@@ -75,6 +75,9 @@ export const getSortedProducts = (products, sortType, sortValue) => {
     if (sortType == "name") {
       return products.filter((product) => product.name.match(sortValue));
     }
+    if (sortType == "id") {
+      return products.filter((product) => product.id.match(sortValue));
+    }
     if (sortType === "color") {
       return products.filter(
         (product) =>
