@@ -122,6 +122,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   // }, [checked, state]);
 
   useEffect(() => {
+    
     if (
       state == "Kerala" ||
       state == "Karnataka" ||
@@ -133,6 +134,8 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
       state == "Mumbai"
     ) {
       setViewDtdc(true);
+    } else {
+      setViewDtdc(false);
     }
     const grms = toatalQuantity * 300;
     if (courier == "DTDC") {
@@ -149,7 +152,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
           console.log("25");
         } else {
           const kg = (grms / 1000) * 45;
-          console.log(kg, "Dkdkdkdk");
           setDeliveryCharges(kg + 15);
         }
       } else if (state == "Karnataka" || state == "Tamil Nadu") {
@@ -209,7 +211,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         }
       } else {
         setViewDtdc(false);
-        setCourierservice("Indian Post")
+        setCourierservice("Indian Post");
       }
       if (!state) {
         if (grms < 500) {
@@ -1711,7 +1713,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                               <li>{"₹" + deliveryCharge.toFixed(2)}</li>
                             </ul>
                           </div>
-                          <div className="your-order-bottom mt-4">
+                          {/* <div className="your-order-bottom mt-4">
                             <ul>
                               <li className="your-order-shipping">
                                 Speed Post
@@ -1724,7 +1726,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                 />
                               </li>
                             </ul>
-                          </div>
+                          </div> */}
                           <div className="your-order-total">
                             <ul>
                               <li className="order-total">Total</li>
