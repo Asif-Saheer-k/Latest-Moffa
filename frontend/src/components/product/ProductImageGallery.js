@@ -97,7 +97,7 @@ const ProductImageGallery = ({
   product.Deal.map((items) => {
     if (items.date == date) {
       offer = items.offer;
-      console.log(offer, "FDCVVVVBBBBB");
+     
     }
   });
 
@@ -129,7 +129,7 @@ const ProductImageGallery = ({
           color,
           size,
         });
-        console.log(data);
+
       } catch (error) {}
     }
   };

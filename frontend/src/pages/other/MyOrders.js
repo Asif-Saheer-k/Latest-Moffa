@@ -48,10 +48,10 @@ const MyOrders = ({ location, user }) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>MOFFA | MYORDERS</title>
+        <title>Thepaaki | MyOrders</title>
         <meta
           name="description"
-          content="Cart page of flone react minimalist eCommerce template."
+          content="Myorders page of thepaaki website"
         />
       </MetaTags>
 

@@ -59,7 +59,7 @@ const ProductImageDescription = ({
 
   return (
     <div
-      className={`shop-area ${spaceTopClass ? spaceTopClass : ""} ${
+      className={`shop-area mt-5 ${spaceTopClass ? spaceTopClass : ""} ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
     >

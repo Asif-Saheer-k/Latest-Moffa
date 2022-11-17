@@ -83,10 +83,10 @@ const HomeFurnitureThree = () => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Moffa | Home</title>
-        <meta
+        <title>Thepaaki | Home</title>
+        <meta 
           name="description"
-          content="Moffa Clothing Home page"
+          content="Thepaaki website home page"
         />
         <meta name="author" content="Asif Saheer k" />
       </MetaTags>

@@ -51,10 +51,10 @@ const LoginRegister = ({ location }) => {
     <ToastProvider>
       <Fragment>
         <MetaTags>
-          <title>Moffa | Login</title>
+          <title>Thepaaki| OTP-Login</title>
           <meta
             name="description"
-            content="Compare page of flone react minimalist eCommerce template."
+            content="Otp Login page of thepaaki website"
           />
         </MetaTags>
         <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>

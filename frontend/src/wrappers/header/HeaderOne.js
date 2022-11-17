@@ -31,8 +31,8 @@ const HeaderOne = ({
   };
 
   return (
-    <header style={{backgroundColor:"#FFFFE3"}}     
-      className={`header-area clearfix ${headerBgClass ? headerBgClass : ""} ${
+    <header  style={{backgroundColor:"#FFFFE3"}}     
+      className={`header-area clearfix  ${headerBgClass ? headerBgClass : ""} ${
         headerPositionClass ? headerPositionClass : ""
       }`}
     >

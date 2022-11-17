@@ -17,10 +17,10 @@ const About = ({ location }) => {
   return (     
     <Fragment>
       <MetaTags>
-        <title>Moffa | Privacy Policy</title>
+        <title>Thepaaki | Privacy Policy</title>
         <meta
           name="description"
-          content="About page of flone react minimalist eCommerce template."
+          content="Privacy Policy page of thepaaki website"
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>

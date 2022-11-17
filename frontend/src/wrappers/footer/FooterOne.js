@@ -60,9 +60,9 @@ const FooterOne = ({
           <div
             className={`${
               sideMenu ? "col-xl-2 col-sm-4" : "col-lg-3 col-sm-4"
-            }`}
+            }`} 
           >
-            <div className="footer-widget mb-30 ml-30">
+            <div className="footer-widget mb-30 ml-30 mt-4">
               <div className="footer-title">
                 <h3>ABOUT US</h3>
               </div>
@@ -102,7 +102,7 @@ const FooterOne = ({
                   : "footer-widget mb-30 ml-50"
               }`}
             >
-              <div className="footer-title">
+              <div className="footer-title mt-4">
                 <h3>USEFUL LINKS</h3>
               </div>
               <div className="footer-list">
@@ -144,7 +144,7 @@ const FooterOne = ({
                   : "footer-widget mb-30 ml-75"
               }`}
             >
-              <div className="footer-title">
+              <div className="footer-title mt-4">
                 <h3>FOLLOW US</h3>
               </div>
               <div className="footer-list">
@@ -200,7 +200,7 @@ const FooterOne = ({
               spaceLeftClass="ml-70"
               sideMenu={sideMenu}
             />
-          </div> */}
+          </div> */} 
         </div>
       </div>
       <a href=" https://wa.me/+918848572454" target="_blank">

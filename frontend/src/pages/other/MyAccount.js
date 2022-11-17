@@ -333,7 +333,7 @@ const MyAccount = ({ location, user }) => {
           },
           prefill: {
             name: user.name,
-            email: user.email,
+            email: "thepaaki.aws@gmail.com",
             contact: user.phone,
           },
           notes: {
@@ -360,10 +360,10 @@ const MyAccount = ({ location, user }) => {
     <ToastProvider>
       <Fragment>
         <MetaTags>
-          <title>Moffa | My Account</title>
+          <title>Thepaaki | My Account</title>
           <meta
             name="description"
-            content="Compare page of flone react minimalist eCommerce template."
+            content="Myaccount page of thepaaki website"
           />
         </MetaTags>
         <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>

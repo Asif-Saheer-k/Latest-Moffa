@@ -1632,8 +1632,8 @@ const verifyWalletAmount = asyncHandler((req, res) => {
   });
 });
 const createOrderObjct = asyncHandler(async (req, res) => {
-  var fromAddress;
 
+  var fromAddress;
   let Amount = req.body.totamAmount;
   const ID = req.body.CUST_ID;
   const Name = req.body.Name;
@@ -1669,7 +1669,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
     };
   }
   const DeliveyCharge = req.body.DeliveyCharge;
-  const DeliveryType = req.body.DeliveryType;
   const payment_type = req.body.payment_type;
   var Role = "user";
   if (!user) {
@@ -1780,7 +1779,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
       user: user,
       role: Role,
       DeliveyCharge: DeliveyCharge,
-      DeliveryType: DeliveryType,
       Courier: Service,
       wallet: Applywallet,
       payment_type: payment_type,
@@ -1801,7 +1799,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
         role: Role,
         DeliveyCharge: DeliveyCharge,
         Courier: Service,
-        DeliveryType: DeliveryType,
         status: "Pending",
         Payment: "Pending",
       };
@@ -1819,7 +1816,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
         role: Role,
         DeliveyCharge: DeliveyCharge,
         Courier: Service,
-        DeliveryType: DeliveryType,
         status: "Pending",
         Payment: "Pending",
       };
@@ -1844,6 +1840,7 @@ const createOrderObjct = asyncHandler(async (req, res) => {
             if (sizesObj.name == products.size) {
               if (sizesObj.stock != 0) {
                 stock = true;
+                
               } else {
                 stock = false;
               }
@@ -1854,12 +1851,15 @@ const createOrderObjct = asyncHandler(async (req, res) => {
     }
   });
   if (stock) {
-    console.log("sucees");
     res.status(200).json(orderItems);
   } else {
     res.status(403).json("Product out stock");
   }
 });
+
+
+
+
 const razorpayIntegration = asyncHandler(async (req, res) => {
   const orderObject = req.session.orderProducts;
   const amount = orderObject.Total;
