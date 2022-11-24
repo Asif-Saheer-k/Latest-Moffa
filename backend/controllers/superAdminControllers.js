@@ -11,6 +11,7 @@ const verification = require("../middleware/tiwllioVerification");
 const verifyAdmin = asyncHandler(async (req, res) => {
   const Email = req.body.email;
   const Password = req.body.password;
+  console.log(Email, Password, "fdsf,s");
   const superAdmin = true;
   if (Email == process.env.SUPER_ADMIN) {
     bcrypt.compare(Password, process.env.SUPER_ADMIN_PASSWORD).then((resp) => {
@@ -121,9 +122,7 @@ const viewAllUser = asyncHandler(async (req, res) => {
   if (AllUser) {
     res.status(200).json(AllUser);
   } else {
-    res.status(500).json({
-      errr: "somthing wrong....",
-    });
+    res.status(500).json("somthing wrong....");
   }
 });
 

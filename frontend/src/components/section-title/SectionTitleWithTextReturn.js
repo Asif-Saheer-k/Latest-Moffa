@@ -12,7 +12,7 @@ const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
         <div className="welcome-content text-center">
           <h1>Returns & Refund Policy</h1>
         </div>
-        <div>
+        <div style={{textAlign:"justify"}}>
           <h4>1.Complaints</h4>
           <p>
             Complaints about Product quality should be done within 24 hours of

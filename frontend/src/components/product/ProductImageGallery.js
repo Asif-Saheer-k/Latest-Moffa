@@ -95,10 +95,12 @@ const ProductImageGallery = ({
   const date = new Date().toLocaleDateString();
   var offer = null;
   product.Deal.map((items) => {
+    console.log(items);
     if (items.date == date) {
       offer = items.offer;
-     
+
     }
+
   });
 
   const CartAddingFunction = async (
@@ -129,7 +131,6 @@ const ProductImageGallery = ({
           color,
           size,
         });
-
       } catch (error) {}
     }
   };
@@ -143,6 +144,7 @@ const ProductImageGallery = ({
     );
     navigate.push("/checkout");
   };
+
   return (
     <Fragment>
       <div className="container">
@@ -155,11 +157,15 @@ const ProductImageGallery = ({
                     ""
                   ) : (
                     <>
-                      {product.discount ? (
-                        <span className="pink">-{product.discount}%</span>
+                      {offer ? (
+                        <span className="pink">-{offer}%</span>
                       ) : (
                         <>
-                          {offer ? <span className="pink">-{offer}%</span> : ""}
+                          {product.discount ? (
+                            <span className="pink">-{product.discount}%</span>
+                          ) : (
+                            ""
+                          )}
                         </>
                       )}
                       {offer ? (
@@ -239,7 +245,6 @@ const ProductImageGallery = ({
                   {discountedPrice !== null ? (
                     <Fragment>
                       <span>₹{finalDiscountedPrice}</span>{" "}
-                  
                     </Fragment>
                   ) : (
                     <span>₹{finalDiscountedPrice} </span>
@@ -247,17 +252,17 @@ const ProductImageGallery = ({
                 </div>
               ) : (
                 <div className="product-details-price">
-                {discountedPrice !== null ? (
-                  <Fragment>
-                    <span>₹{finalDiscountedPrice}</span>{" "}
-                    {finalProductPrice && (
-                      <span className="old">₹{finalProductPrice}</span>
-                    )}
-                  </Fragment>
-                ) : (
-                  <span>₹{finalProductPrice} </span>
-                )}
-              </div>
+                  {discountedPrice !== null ? (
+                    <Fragment>
+                      <span>₹{finalDiscountedPrice}</span>{" "}
+                      {finalProductPrice && (
+                        <span className="old">₹{finalProductPrice}</span>
+                      )}
+                    </Fragment>
+                  ) : (
+                    <span>₹{finalProductPrice} </span>
+                  )}
+                </div>
               )}
 
               {product.rating && product.rating > 0 ? (

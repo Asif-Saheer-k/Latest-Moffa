@@ -49,10 +49,7 @@ const MyOrders = ({ location, user }) => {
     <Fragment>
       <MetaTags>
         <title>Thepaaki | MyOrders</title>
-        <meta
-          name="description"
-          content="Myorders page of thepaaki website"
-        />
+        <meta name="description" content="Myorders page of thepaaki website" />
       </MetaTags>
 
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
@@ -106,7 +103,7 @@ const MyOrders = ({ location, user }) => {
                                 const result = Products.find(
                                   (item) => item.id === single.ProductID
                                 );
-                                console.log(result, "DDCCC");
+
                                 var finalProductPrice;
                                 var finalDiscountedPrice;
                                 if (user.user == true) {
@@ -123,8 +120,6 @@ const MyOrders = ({ location, user }) => {
                                     finalDiscountedPrice =
                                       result?.price - discountPrice;
                                   } else {
-                                    console.log("nodicvoutnn");
-                                    console.log(result.price);
                                     finalDiscountedPrice = result?.price;
                                   }
                                 } else {
@@ -166,18 +161,17 @@ const MyOrders = ({ location, user }) => {
 
                                       <td className="product-price-cart">
                                         <Fragment>
-                                         
-                                              {" "}
-                                              {finalProductPrice&&<span className="amount old">
-                                                {"₹" + finalProductPrice}
-                                              </span>}
-                                              <span className="amount">
-                                                {"₹" + finalDiscountedPrice}
-                                              </span>
-                                            
-                                        
+                                          {" "}
+                                          {finalProductPrice && (
+                                            <span className="amount old">
+                                              {"₹" + finalProductPrice}
+                                            </span>
+                                          )}
+                                          <span className="amount">
+                                            {"₹" + finalDiscountedPrice}
+                                          </span>
                                         </Fragment>
-                                      </td>  
+                                      </td>
 
                                       <td className="product-quantity">
                                         <span className="amount">

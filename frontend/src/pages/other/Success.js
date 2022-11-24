@@ -59,11 +59,11 @@ const Cart = ({ location, deleteAllFromCart, user }) => {
                     />
                   </div>
                   <div className="item-empty-area__text">
-                    Succesfully Ordered
+                    Succesfully Ordered 
                     <br />{" "}
                     <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
                       Shop Now
-                    </Link>
+                    </Link>   
                   </div>
                 </div>
               </div>

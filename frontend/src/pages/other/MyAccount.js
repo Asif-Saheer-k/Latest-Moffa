@@ -376,7 +376,7 @@ const MyAccount = ({ location, user }) => {
           {/* breadcrumb */}
           <Breadcrumb />
           <div className="myaccount-area pb-80 pt-100">
-            <div className="container">
+            <div className="container mt-5">
               <div className="row">
                 <div className="ml-auto mr-auto col-lg-9">
                   <div className="myaccount-wrapper">

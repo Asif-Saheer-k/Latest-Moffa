@@ -8,11 +8,11 @@ const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
         spaceBottomClass ? spaceBottomClass : ""
       }`}
     >
-      <div className="container">
+      <div className="container mt-5">
         <div className="welcome-content text-center">
           <h5>Who Are We</h5>
           <h1>Welcome To Moffa Clothing</h1>
-          <p>
+          <p style={{textAlign:"justify"}}>
             An exclusive women’s and junior’s fashion store and Boutique at
             Ernakulam in KERALA. We started our retail store at Ernakulam on
             2019 and our online journey started 2 years back through our

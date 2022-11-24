@@ -22,10 +22,7 @@ const Product = ({ location, product }) => {
     <Fragment>
       <MetaTags>
         <title>Moffa | Product Page</title>
-        <meta
-          name="description"
-          content="Product page of thepaaki website"
-        />
+        <meta name="description" content="Product page of thepaaki website" />
       </MetaTags>
 
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>

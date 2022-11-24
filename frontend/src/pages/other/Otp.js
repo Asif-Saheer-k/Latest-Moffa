@@ -123,7 +123,7 @@ const LoginRegister = ({ location, user }) => {
           {/* breadcrumb */}
           <Breadcrumb />
           <div className="login-register-area pt-100 pb-100">
-            <div className="container">
+            <div className="container mt-5">
               <div className="row">
                 <div className="col-lg-7 col-md-12 ml-auto mr-auto">
                   <div className="login-register-wrapper">

@@ -19,7 +19,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import image from  "../../assets/img/logo/MOFFA.png"
+import image from "../../assets/img/logo/MOFFA.png";
 import {
   deleteAllFromCart,
   deleteFromCart,
@@ -32,6 +32,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [checked, setChecked] = React.useState(false);
   const [invalid, setInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSelectoption, setShowSelectOption] = useState(true);
   const [wallet, setWallet] = useState(null);
   const [walletApplyAmount, setWalletApplyAmount] = useState(null);
   const [Amount, setAmount] = useState();
@@ -599,7 +600,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     walletApplyAmount &&
                     walletApplyAmount == cartTotalPrice.toFixed(0)
                   ) {
-                  
                     const OderProducts = cartItems;
                     let totamAmount = cartTotalPrice.toFixed(0);
                     const DeliveyCharge = deliveryCharge;
@@ -631,7 +631,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                     if (walletApplyAmount) {
                       Applywallet = walletApplyAmount;
                     }
-                
+
                     try {
                       const config = {
                         headers: {
@@ -821,7 +821,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                                     "api/user/razorpay-payment/success",
                                     data
                                   );
-                                 
+
                                   navigate.push("/success");
                                 } catch (error) {
                                   navigate.push("/error");
@@ -1024,6 +1024,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         }).then(async (willDelete) => {
           if (willDelete) {
             setWalletApplyAmount(Amount);
+            setShowSelectOption(false);
           } else {
             swal("Your Data Is Safe");
           }
@@ -1040,10 +1041,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
     <Fragment>
       <MetaTags>
         <title>Thepaaki | Checkout</title>
-        <meta
-          name="description"
-          content="Checkout page of thepaaki website"
-        />
+        <meta name="description" content="Checkout page of thepaaki website" />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
@@ -1840,54 +1838,56 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                               </li>
                             </ul>
                           </div>
-                          <FormControl>
-                            <RadioGroup
-                              aria-labelledby="demo-radio-buttons-group-label"
-                              defaultValue="Indian Post"
-                              name="radio-buttons-group"
-                            >
-                              <div className="discount-code-wrapper mt-2">
-                                <div className="title-wrap">
-                                  <h4 className="cart-bottom-title section-bg-gray">
-                                    Select Courier Service
-                                  </h4>
-                                </div>
+                          {showSelectoption && (
+                            <FormControl>
+                              <RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                defaultValue="Indian Post"
+                                name="radio-buttons-group"
+                              >
+                                <div className="discount-code-wrapper mt-2">
+                                  <div className="title-wrap">
+                                    <h4 className="cart-bottom-title section-bg-gray">
+                                      Select Courier Service
+                                    </h4>
+                                  </div>
 
-                                <div className="your-order-bottom mt-2">
-                                  {viewDtdc && (
+                                  <div className="your-order-bottom mt-2">
+                                    {viewDtdc && (
+                                      <ul>
+                                        <li className="your-order-shipping">
+                                          DTDC
+                                        </li>
+                                        <li>
+                                          <FormControlLabel
+                                            value="DTDC"
+                                            control={<Radio />}
+                                            onChange={(e) => {
+                                              setCourierservice("DTDC");
+                                            }}
+                                          />
+                                        </li>
+                                      </ul>
+                                    )}
                                     <ul>
                                       <li className="your-order-shipping">
-                                        DTDC
+                                        Indian Post
                                       </li>
                                       <li>
                                         <FormControlLabel
-                                          value="DTDC"
+                                          value="Indian Post"
                                           control={<Radio />}
                                           onChange={(e) => {
-                                            setCourierservice("DTDC");
+                                            setCourierservice("Indian Post");
                                           }}
                                         />
                                       </li>
                                     </ul>
-                                  )}
-                                  <ul>
-                                    <li className="your-order-shipping">
-                                      Indian Post
-                                    </li>
-                                    <li>
-                                      <FormControlLabel
-                                        value="Indian Post"
-                                        control={<Radio />}
-                                        onChange={(e) => {
-                                          setCourierservice("Indian Post");
-                                        }}
-                                      />
-                                    </li>
-                                  </ul>
+                                  </div>
                                 </div>
-                              </div>
-                            </RadioGroup>
-                          </FormControl>
+                              </RadioGroup>
+                            </FormControl>
+                          )}
 
                           {/* <FormControl>
                             <RadioGroup

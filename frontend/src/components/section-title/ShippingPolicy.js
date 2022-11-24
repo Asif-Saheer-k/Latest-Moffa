@@ -8,10 +8,10 @@ const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
         spaceBottomClass ? spaceBottomClass : ""
       }`}
     >
-      <div className="container">
+      <div className="container mt-5">
         <div className="welcome-content text-center">
-          <h1>Shipping & Delivery Policy</h1>
-          <p>
+          <h1 style={{textAlign:"justify"}}>Shipping & Delivery Policy</h1>
+          <p style={{textAlign:"justify"}}>
             For International buyers, orders are shipped and delivered through
             registered international courier companies and/or International
             speed post only. For domestic buyers, orders are shipped through

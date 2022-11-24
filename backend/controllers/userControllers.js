@@ -1632,7 +1632,6 @@ const verifyWalletAmount = asyncHandler((req, res) => {
   });
 });
 const createOrderObjct = asyncHandler(async (req, res) => {
-
   var fromAddress;
   let Amount = req.body.totamAmount;
   const ID = req.body.CUST_ID;
@@ -1840,7 +1839,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
             if (sizesObj.name == products.size) {
               if (sizesObj.stock != 0) {
                 stock = true;
-                
               } else {
                 stock = false;
               }
@@ -1856,9 +1854,6 @@ const createOrderObjct = asyncHandler(async (req, res) => {
     res.status(403).json("Product out stock");
   }
 });
-
-
-
 
 const razorpayIntegration = asyncHandler(async (req, res) => {
   const orderObject = req.session.orderProducts;

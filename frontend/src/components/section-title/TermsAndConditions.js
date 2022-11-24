@@ -8,12 +8,12 @@ const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
         spaceBottomClass ? spaceBottomClass : ""
       }`}
     >
-      <div className="container">
+      <div className="container mt-5">
         <div className="welcome-content text-center">
           <h1>Terms & Conditions</h1>
         </div>
         <div>
-          <p>
+          <p style={{textAlign:"justify"}}>
             Your use of the Website and services and tools are governed by the
             following terms and conditions (“Terms of Use”) as applicable to the
             Website including the applicable policies which are incorporated

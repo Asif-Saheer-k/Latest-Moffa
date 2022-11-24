@@ -18,26 +18,7 @@ const ShopBannerPage = lazy(() => import("./pages/shop/shop-banner-products"));
 
 // product pages
 const Product = lazy(() => import("./pages/shop-product/Product"));
-// const BannerProducts = lazy(() => import("./pages/shop-product/PoductPageforBanner"));
-// const ProductTabLeft = lazy(() =>
-//   import("./pages/shop-product/ProductTabLeft")
-// );
-// const ProductTabRight = lazy(() =>
-//   import("./pages/shop-product/ProductTabRight")
-// );
-// const ProductSticky = lazy(() => import("./pages/shop-product/ProductSticky"));
-// const ProductSlider = lazy(() => import("./pages/shop-product/ProductSlider"));
-// const ProductFixedImage = lazy(() =>
-//   import("./pages/shop-product/ProductFixedImage")
-// );
 
-// blog pages
-// const BlogStandard = lazy(() => import("./pages/blog/BlogStandard"));
-// const BlogNoSidebar = lazy(() => import("./pages/blog/BlogNoSidebar"));
-// const BlogRightSidebar = lazy(() => import("./pages/blog/BlogRightSidebar"));
-// const BlogDetailsStandard = lazy(() =>
-//   import("./pages/blog/BlogDetailsStandard")
-// );
 
 // other pages
 const MyOrders = lazy(() => import("./pages/other/MyOrders"));

@@ -84,11 +84,15 @@ const ProductGridSingleTwo = ({
                   ""
                 ) : (
                   <>
-                    {product.discount ? (
-                      <span className="pink">-{product.discount}%</span>
+                    {offer ? (
+                      <span className="pink">-{offer}%</span>
                     ) : (
                       <>
-                        {offer ? <span className="pink">-{offer}%</span> : ""}
+                        {product.discount ? (
+                          <span className="pink">-{product.discount}%</span>
+                        ) : (
+                          ""
+                        )}
                       </>
                     )}
                     {offer ? (
