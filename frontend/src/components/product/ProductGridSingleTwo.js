@@ -71,9 +71,9 @@ const ProductGridSingleTwo = ({
         >
           <div className="product-img">
             <Link onClick={singlePage}>
-              <img className="default-img" src={product.image[0].url} alt="" />
+              <img className="default-img" style={{borderRadius:"0.4rem"}} src={product.image[0].url} alt="" />
               {product.image.length > 1 ? (
-                <img className="hover-img" src={product.image[1].url} alt="" />
+                <img className="hover-img"  style={{borderRadius:"0.4rem"}} src={product.image[1].url} alt="" />
               ) : (
                 ""
               )}

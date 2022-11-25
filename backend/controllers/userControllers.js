@@ -1827,30 +1827,11 @@ const createOrderObjct = asyncHandler(async (req, res) => {
   //find quantity function
   const orderItems = req.session.orderProducts;
   var stock = true;
-  OderProducts.map(async (products) => {
-    if (stock) {
-      const product = await db
-        .get()
-        .collection(collection.PRODUCT_COLLECTION)
-        .findOne({ id: products.ProductID });
-      product.variation.map((obj) => {
-        if (obj.color == products.color) {
-          obj.size.map(async (sizesObj) => {
-            if (sizesObj.name == products.size) {
-              if (sizesObj.stock != 0) {
-                stock = true;
-              } else {
-                stock = false;
-              }
-            }
-          });
-        }
-      });
-    }
-  });
+
   if (stock) {
     res.status(200).json(orderItems);
   } else {
+    console.log("fmcmmcc");
     res.status(403).json("Product out stock");
   }
 });

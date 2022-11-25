@@ -29,6 +29,7 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
   const [addaddress, setAddress] = useState({});
   const [viewDtdc, setViewDtdc] = useState(false);
   const [fromaddress, setFromaddress] = useState({});
+  const [outofStoke, setOutStoke] = useState(false);
   const [checked, setChecked] = React.useState(false);
   const [invalid, setInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,6 +70,24 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
         const { data } = await axios.get("/api/superAdmin/view-all-products");
 
         setProducts(data);
+        cartItems.map((items) => {
+          const obj = data.filter((product) => {
+            if (items.id == product.id) {
+              product.variation.filter((object) => {
+                if (object.color == items.selectedProductColor) {
+                  object.size.filter((sizes) => {
+                    if (sizes.name == items.selectedProductSize) {
+                      if (items.quantity <= sizes.stock) {
+                      } else {
+                        setOutStoke(true);
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          });
+        });
       } catch (error) {}
     })();
   }, []);
@@ -96,32 +115,6 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
       });
     }
   }, [produt]);
-
-  // useEffect(() => {
-  //   if (checked) {
-  //     if (state) {
-  //       if (
-  //         state == "Andhra Pradesh" ||
-  //         state == "Karnataka" ||
-  //         state == "Tamil Nadu" ||
-  //         state == "Telangana" ||
-  //         state == "Kerala"
-  //       ) {
-  //         setDeliveryCharges(70);
-  //       } else {
-  //         setDeliveryCharges(100);
-  //       }
-  //     } else {
-  //       addToast("Please Select State", {
-  //         appearance: "error",
-  //         autoDismiss: true,
-  //       });
-  //       setChecked(false);
-  //     }
-  //   } else {
-  //     setDeliveryCharges(50);
-  //   }
-  // }, [checked, state]);
 
   useEffect(() => {
     if (
@@ -459,392 +452,233 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                 }
               }
             } else {
-              const date = new Date().toLocaleDateString();
-              var users = user;
-              if (users.user) {
-                const OderProducts = cartItems;
-                const totamAmount = cartTotalPrice.toFixed(0);
-                const DeliveyCharge = deliveryCharge;
-                const CUST_ID = users.CUST_ID;
-                const Name = data.Name;
-                const LastName = data.LastName;
-                const StreetAddress = data?.StreetAddress;
-                const Apartment = data?.Apartment;
-                const TownCity = data.TownCity;
-                const Postcode = data.Postcode;
-                const PhoneNumber = data.PhoneNumber;
-                const Email = data.Email;
-                const message = data?.message;
-                const Service = courier;
-                const State = state;
-                const user = true;
-                const Date = date;
-                const payment_type = "razorpay";
-                try {
-                  const config = {
-                    headers: {
-                      "Content-type": "application/json",
-                      "auth-token": users.token,
-                    },
-                  };
-                  const { data } = await axios.post(
-                    "/api/user/create-order-object",
-                    {
-                      OderProducts,
-                      totamAmount,
-                      CUST_ID,
-                      Name,
-                      DeliveyCharge,
-                      LastName,
-                      StreetAddress,
-                      Apartment,
-                      TownCity,
-                      Postcode,
-                      PhoneNumber,
-                      Email,
-                      message,
-                      State,
-                      Service,
-                      user,
-                      Date,
-                      payment_type,
-                    },
-                    config
-                  );
-                  if (data) {
-                    try {
-                      const config = {
-                        headers: {
-                          "Content-type": "application/json",
-                          "auth-token": users.token,
-                        },
-                      };
-                      const { data } = await axios.post(
-                        "/api/user/razorpay",
-                        data,
-                        config
-                      );
-                      const { ammount, id: order_id, currency } = data;
-                      const options = {
-                        key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
-                        amount: ammount,
-                        currency: currency,
-                        name: "MOFFA CLOTHING.",
-                        description: "LIVE Transaction",
-                        image: image,
-                        order_id: order_id,
-                        handler: async function (response) {
-                          const data = {
-                            orderCreationId: order_id,
-                            razorpayPaymentId: response.razorpay_payment_id,
-                            razorpayOrderId: response.razorpay_order_id,
-                            razorpaySignature: response.razorpay_signature,
-                          };
+              if (!outofStoke) {
+                const date = new Date().toLocaleDateString();
+                var users = user;
+                if (users.user) {
+                  const OderProducts = cartItems;
+                  const totamAmount = cartTotalPrice.toFixed(0);
+                  const DeliveyCharge = deliveryCharge;
+                  const CUST_ID = users.CUST_ID;
+                  const Name = data.Name;
+                  const LastName = data.LastName;
+                  const StreetAddress = data?.StreetAddress;
+                  const Apartment = data?.Apartment;
+                  const TownCity = data.TownCity;
+                  const Postcode = data.Postcode;
+                  const PhoneNumber = data.PhoneNumber;
+                  const Email = data.Email;
+                  const message = data?.message;
+                  const Service = courier;
+                  const State = state;
+                  const user = true;
+                  const Date = date;
+                  const payment_type = "razorpay";
+                  try {
+                    const config = {
+                      headers: {
+                        "Content-type": "application/json",
+                        "auth-token": users.token,
+                      },
+                    };
 
-                          try {
-                            const verification = await axios.post(
-                              "/api/user/verify-razorpay-payment",
-                              data
-                            );
+                    const { data } = await axios.post(
+                      "/api/user/create-order-object",
+                      {
+                        OderProducts,
+                        totamAmount,
+                        CUST_ID,
+                        Name,
+                        DeliveyCharge,
+                        LastName,
+                        StreetAddress,
+                        Apartment,
+                        TownCity,
+                        Postcode,
+                        PhoneNumber,
+                        Email,
+                        message,
+                        State,
+                        Service,
+                        user,
+                        Date,
+                        payment_type,
+                      },
+                      config
+                    );
+                
+                    if (data) {
+                      try {
+                        const config = {
+                          headers: {
+                            "Content-type": "application/json",
+                            "auth-token": users.token,
+                          },
+                        };
+                        const { data } = await axios.post(
+                          "/api/user/razorpay",
+                          data,
+                          config
+                        );
+                        const { ammount, id: order_id, currency } = data;
+                        const options = {
+                          key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
+                          amount: ammount,
+                          currency: currency,
+                          name: "MOFFA CLOTHING.",
+                          description: "LIVE Transaction",
+                          image: image,
+                          order_id: order_id,
+                          handler: async function (response) {
+                            const data = {
+                              orderCreationId: order_id,
+                              razorpayPaymentId: response.razorpay_payment_id,
+                              razorpayOrderId: response.razorpay_order_id,
+                              razorpaySignature: response.razorpay_signature,
+                            };
 
                             try {
-                              const result = await axios.post(
-                                "api/user/razorpay-payment/success",
+                              const verification = await axios.post(
+                                "/api/user/verify-razorpay-payment",
                                 data
                               );
-                              navigate.push("/success");
-                            } catch (error) {
-                              navigate.push("/error");
-                            }
-                          } catch (error) {
-                            navigate.push("/error");
-                          }
-                        },
-                        prefill: {
-                          name: user.name,
-                          email: "thepaaki.aws@gmail.com",
-                          contact: user.phone,
-                        },
-                        notes: {
-                          address: orderObject.address,
-                        },
-                        theme: {
-                          color: "#FFFFE3",
-                        },
-                      };
-                      const paymentObject = new window.Razorpay(options);
-                      paymentObject.open();
-                    } catch (err) {
-                      swal({
-                        title: "Please Refresh Your Web Page",
-                        text: "We sincerely apologize for this inconvenience",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                      });
-                    }
-                  }
-                } catch (error) {
-                  swal({
-                    title: "Product Out Of Stock",
-                    text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                  });
-                }
-              } else {
-                if (fromstate) {
-                  //take all amount from cart
-                  if (
-                    walletApplyAmount &&
-                    walletApplyAmount == cartTotalPrice.toFixed(0)
-                  ) {
-                    const OderProducts = cartItems;
-                    let totamAmount = cartTotalPrice.toFixed(0);
-                    const DeliveyCharge = deliveryCharge;
-                    const CUST_ID = users.CUST_ID;
-                    const Name = data.Name;
-                    const FromName = data.FromName;
-                    const LastName = data.LastName;
-                    const FromLastName = data.FromLastName;
-                    const StreetAddress = data?.StreetAddress;
-                    const FromStreetAddress = data?.FromStreetAddress;
-                    const Apartment = data?.Apartment;
-                    const TownCity = data.TownCity;
-                    const FromTownCity = data.FromTownCity;
-                    const Postcode = data.Postcode;
-                    const FromPincode = data.FromPincode;
-                    const PhoneNumber = data.PhoneNumber;
-                    const FromPhoneNumber = data.FromPhoneNumber;
-                    const Email = data.Email;
-                    const FromEmail = data.FromEmail;
-                    const message = data?.message;
-                    const State = state;
-                    const FromState = fromstate;
-                    const Service = courier;
-                    const user = false;
-                    const Date = date;
-                    const payment_type = "Wallet F";
-                    var Applywallet = 0;
 
-                    if (walletApplyAmount) {
-                      Applywallet = walletApplyAmount;
-                    }
-
-                    try {
-                      const config = {
-                        headers: {
-                          "Content-type": "application/json",
-                          "auth-token": users.token,
-                        },
-                      };
-                      const { data } = await axios.post(
-                        "/api/user/create-order-object",
-                        {
-                          OderProducts,
-                          totamAmount,
-                          DeliveyCharge,
-                          CUST_ID,
-                          Name,
-                          FromName,
-                          LastName,
-                          FromLastName,
-                          StreetAddress,
-                          FromStreetAddress,
-                          Apartment,
-                          TownCity,
-                          FromTownCity,
-                          Postcode,
-                          FromPincode,
-                          PhoneNumber,
-                          FromPhoneNumber,
-                          Email,
-                          FromEmail,
-                          message,
-                          State,
-                          FromState,
-                          Service,
-                          user,
-                          Applywallet,
-                          Date,
-                          payment_type,
-                        },
-                        config
-                      );
-                      if (data) {
-                        try {
-                          const result = await axios.post(
-                            "api/user/razorpay-payment/success",
-                            data
-                          );
-                          navigate.push("/success");
-                        } catch (error) {
-                          navigate.push("/error");
-                        }
-                      } else {
-                        swal({
-                          title: "Please Refresh Your Web Page",
-                          text: "We sincerely apologize for this inconvenience",
-                          icon: "warning",
-                          buttons: true,
-                          dangerMode: true,
-                        });
-                      }
-                    } catch (error) {
-                      if (error.response.data == "refresh") {
-                        swal({
-                          title: "Please Refresh Your Web Page",
-                          text: "We sincerely apologize for this inconvenience",
-                          icon: "warning",
-                          buttons: true,
-                          dangerMode: true,
-                        });
-                      } else {
-                        swal({
-                          title: "Product Out Of Stock",
-                          text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
-                          icon: "warning",
-                          buttons: true,
-                          dangerMode: true,
-                        });
-                      }
-                    }
-                  } else {
-                    const OderProducts = cartItems;
-                    let totamAmount = cartTotalPrice.toFixed(0);
-                    const DeliveyCharge = deliveryCharge;
-                    const CUST_ID = users.CUST_ID;
-                    const Name = data.Name;
-                    const FromName = data.FromName;
-                    const LastName = data.LastName;
-                    const FromLastName = data.FromLastName;
-                    const StreetAddress = data?.StreetAddress;
-                    const FromStreetAddress = data?.FromStreetAddress;
-                    const Apartment = data?.Apartment;
-                    const TownCity = data.TownCity;
-                    const FromTownCity = data.FromTownCity;
-                    const Postcode = data.Postcode;
-                    const FromPincode = data.FromPincode;
-                    const PhoneNumber = data.PhoneNumber;
-                    const FromPhoneNumber = data.FromPhoneNumber;
-                    const Email = data.Email;
-                    const FromEmail = data.FromEmail;
-                    const message = data?.message;
-                    const State = state;
-                    const FromState = fromstate;
-                    const Service = courier;
-                    const user = false;
-                    const Date = date;
-                    const payment_type = "razorpay";
-                    var Applywallet = 0;
-
-                    if (walletApplyAmount) {
-                      Applywallet = walletApplyAmount;
-                    }
-                    try {
-                      const config = {
-                        headers: {
-                          "Content-type": "application/json",
-                          "auth-token": users.token,
-                        },
-                      };
-                      const { data } = await axios.post(
-                        "/api/user/create-order-object",
-                        {
-                          OderProducts,
-                          totamAmount,
-                          DeliveyCharge,
-                          CUST_ID,
-                          Name,
-                          FromName,
-                          LastName,
-                          FromLastName,
-                          StreetAddress,
-                          FromStreetAddress,
-                          Apartment,
-                          TownCity,
-                          FromTownCity,
-                          Postcode,
-                          FromPincode,
-                          PhoneNumber,
-                          FromPhoneNumber,
-                          Email,
-                          FromEmail,
-                          message,
-                          State,
-                          FromState,
-                          Service,
-                          user,
-                          Applywallet,
-                          Date,
-                          payment_type,
-                        },
-                        config
-                      );
-                      if (data) {
-                        try {
-                          const config = {
-                            headers: {
-                              "Content-type": "application/json",
-                              "auth-token": users.token,
-                            },
-                          };
-                          const { data } = await axios.post(
-                            "/api/user/razorpay",
-                            data,
-                            config
-                          );
-                          const { ammount, id: order_id, currency } = data;
-                          const options = {
-                            key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
-                            amount: ammount,
-                            currency: currency,
-                            name: "MOFFA CLOTHING.",
-                            description: "Transaction",
-                            image: image,
-                            order_id: order_id,
-                            handler: async function (response) {
-                              const data = {
-                                orderCreationId: order_id,
-                                razorpayPaymentId: response.razorpay_payment_id,
-                                razorpayOrderId: response.razorpay_order_id,
-                                razorpaySignature: response.razorpay_signature,
-                              };
                               try {
-                                const verification = await axios.post(
-                                  "/api/user/verify-razorpay-payment",
+                                const result = await axios.post(
+                                  "api/user/razorpay-payment/success",
                                   data
                                 );
-                                try {
-                                  const result = await axios.post(
-                                    "api/user/razorpay-payment/success",
-                                    data
-                                  );
-
-                                  navigate.push("/success");
-                                } catch (error) {
-                                  navigate.push("/error");
-                                }
+                                navigate.push("/success");
                               } catch (error) {
                                 navigate.push("/error");
                               }
-                            },
-                            prefill: {
-                              name: user.name,
-                              email: "thepaaki.aws@gmail.com",
-                              contact: user.phone,
-                            },
-                            notes: {
-                              address: orderObject.address,
-                            },
-                            theme: {
-                              color: "#FFFFE3",
-                            },
-                          };
-                          const paymentObject = new window.Razorpay(options);
-                          paymentObject.open();
-                        } catch (err) {
+                            } catch (error) {
+                              navigate.push("/error");
+                            }
+                          },
+                          prefill: {
+                            name: user.name,
+                            email: "thepaaki.aws@gmail.com",
+                            contact: user.phone,
+                          },
+                          notes: {
+                            address: orderObject.address,
+                          },
+                          theme: {
+                            color: "#FFFFE3",
+                          },
+                        };
+                        const paymentObject = new window.Razorpay(options);
+                        paymentObject.open();
+                      } catch (err) {
+                        swal({
+                          title: "Please Refresh Your Web Page",
+                          text: "We sincerely apologize for this inconvenience",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        });
+                      }
+                    }
+                  } catch (error) {
+                    swal({
+                      title: "Product Out Of Stock",
+                      text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
+                      icon: "warning",
+                      buttons: true,
+                      dangerMode: true,
+                    });
+                  }
+                } else {
+                  if (fromstate) {
+                    //take all amount from cart
+                    if (
+                      walletApplyAmount &&
+                      walletApplyAmount == cartTotalPrice.toFixed(0)
+                    ) {
+                      const OderProducts = cartItems;
+                      let totamAmount = cartTotalPrice.toFixed(0);
+                      const DeliveyCharge = deliveryCharge;
+                      const CUST_ID = users.CUST_ID;
+                      const Name = data.Name;
+                      const FromName = data.FromName;
+                      const LastName = data.LastName;
+                      const FromLastName = data.FromLastName;
+                      const StreetAddress = data?.StreetAddress;
+                      const FromStreetAddress = data?.FromStreetAddress;
+                      const Apartment = data?.Apartment;
+                      const TownCity = data.TownCity;
+                      const FromTownCity = data.FromTownCity;
+                      const Postcode = data.Postcode;
+                      const FromPincode = data.FromPincode;
+                      const PhoneNumber = data.PhoneNumber;
+                      const FromPhoneNumber = data.FromPhoneNumber;
+                      const Email = data.Email;
+                      const FromEmail = data.FromEmail;
+                      const message = data?.message;
+                      const State = state;
+                      const FromState = fromstate;
+                      const Service = courier;
+                      const user = false;
+                      const Date = date;
+                      const payment_type = "Wallet F";
+                      var Applywallet = 0;
+
+                      if (walletApplyAmount) {
+                        Applywallet = walletApplyAmount;
+                      }
+
+                      try {
+                        const config = {
+                          headers: {
+                            "Content-type": "application/json",
+                            "auth-token": users.token,
+                          },
+                        };
+                        const { data } = await axios.post(
+                          "/api/user/create-order-object",
+                          {
+                            OderProducts,
+                            totamAmount,
+                            DeliveyCharge,
+                            CUST_ID,
+                            Name,
+                            FromName,
+                            LastName,
+                            FromLastName,
+                            StreetAddress,
+                            FromStreetAddress,
+                            Apartment,
+                            TownCity,
+                            FromTownCity,
+                            Postcode,
+                            FromPincode,
+                            PhoneNumber,
+                            FromPhoneNumber,
+                            Email,
+                            FromEmail,
+                            message,
+                            State,
+                            FromState,
+                            Service,
+                            user,
+                            Applywallet,
+                            Date,
+                            payment_type,
+                          },
+                          config
+                        );
+                        if (data) {
+                          try {
+                            const result = await axios.post(
+                              "api/user/razorpay-payment/success",
+                              data
+                            );
+                            navigate.push("/success");
+                          } catch (error) {
+                            navigate.push("/error");
+                          }
+                        } else {
                           swal({
                             title: "Please Refresh Your Web Page",
                             text: "We sincerely apologize for this inconvenience",
@@ -853,43 +687,219 @@ const Checkout = ({ location, cartItems, currency, user, deleteFromCart }) => {
                             dangerMode: true,
                           });
                         }
+                      } catch (error) {
+                        if (error.response.data == "refresh") {
+                          swal({
+                            title: "Please Refresh Your Web Page",
+                            text: "We sincerely apologize for this inconvenience",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                          });
+                        } else {
+                          swal({
+                            title: "Product Out Of Stock",
+                            text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                          });
+                        }
                       }
-                    } catch (error) {
-                      if (error.response.data == "refresh") {
-                        swal({
-                          title: "Please Refresh Your Web Page",
-                          text: "We sincerely apologize for this inconvenience",
-                          icon: "warning",
-                          buttons: true,
-                          dangerMode: true,
-                        });
-                      } else {
-                        swal({
-                          title: "Product Out Of Stock",
-                          text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
-                          icon: "warning",
-                          buttons: true,
-                          dangerMode: true,
-                        });
+                    } else {
+                      const OderProducts = cartItems;
+                      let totamAmount = cartTotalPrice.toFixed(0);
+                      const DeliveyCharge = deliveryCharge;
+                      const CUST_ID = users.CUST_ID;
+                      const Name = data.Name;
+                      const FromName = data.FromName;
+                      const LastName = data.LastName;
+                      const FromLastName = data.FromLastName;
+                      const StreetAddress = data?.StreetAddress;
+                      const FromStreetAddress = data?.FromStreetAddress;
+                      const Apartment = data?.Apartment;
+                      const TownCity = data.TownCity;
+                      const FromTownCity = data.FromTownCity;
+                      const Postcode = data.Postcode;
+                      const FromPincode = data.FromPincode;
+                      const PhoneNumber = data.PhoneNumber;
+                      const FromPhoneNumber = data.FromPhoneNumber;
+                      const Email = data.Email;
+                      const FromEmail = data.FromEmail;
+                      const message = data?.message;
+                      const State = state;
+                      const FromState = fromstate;
+                      const Service = courier;
+                      const user = false;
+                      const Date = date;
+                      const payment_type = "razorpay";
+                      var Applywallet = 0;
+
+                      if (walletApplyAmount) {
+                        Applywallet = walletApplyAmount;
+                      }
+                      try {
+                        const config = {
+                          headers: {
+                            "Content-type": "application/json",
+                            "auth-token": users.token,
+                          },
+                        };
+                        const { data } = await axios.post(
+                          "/api/user/create-order-object",
+                          {
+                            OderProducts,
+                            totamAmount,
+                            DeliveyCharge,
+                            CUST_ID,
+                            Name,
+                            FromName,
+                            LastName,
+                            FromLastName,
+                            StreetAddress,
+                            FromStreetAddress,
+                            Apartment,
+                            TownCity,
+                            FromTownCity,
+                            Postcode,
+                            FromPincode,
+                            PhoneNumber,
+                            FromPhoneNumber,
+                            Email,
+                            FromEmail,
+                            message,
+                            State,
+                            FromState,
+                            Service,
+                            user,
+                            Applywallet,
+                            Date,
+                            payment_type,
+                          },
+                          config
+                        );
+                        console.log(data, "Fskdfkvkkmv,,,koooi");
+                        if (data) {
+                          try {
+                            const config = {
+                              headers: {
+                                "Content-type": "application/json",
+                                "auth-token": users.token,
+                              },
+                            };
+                            const { data } = await axios.post(
+                              "/api/user/razorpay",
+                              data,
+                              config
+                            );
+                            console.log(data, "Fskdfkvkv,,,koooi");
+                            const { ammount, id: order_id, currency } = data;
+                            const options = {
+                              key: process.env.SECRET_KEY, // Enter the Key ID generated from the Dashboard
+                              amount: ammount,
+                              currency: currency,
+                              name: "MOFFA CLOTHING.",
+                              description: "Transaction",
+                              image: image,
+                              order_id: order_id,
+                              handler: async function (response) {
+                                const data = {
+                                  orderCreationId: order_id,
+                                  razorpayPaymentId:
+                                    response.razorpay_payment_id,
+                                  razorpayOrderId: response.razorpay_order_id,
+                                  razorpaySignature:
+                                    response.razorpay_signature,
+                                };
+                                try {
+                                  const verification = await axios.post(
+                                    "/api/user/verify-razorpay-payment",
+                                    data
+                                  );
+
+                                  try {
+                                    const result = await axios.post(
+                                      "api/user/razorpay-payment/success",
+                                      data
+                                    );
+
+                                    navigate.push("/success");
+                                  } catch (error) {
+                                    navigate.push("/error");
+                                  }
+                                } catch (error) {
+                                  navigate.push("/error");
+                                }
+                              },
+                              prefill: {
+                                name: user.name,
+                                email: "thepaaki.aws@gmail.com",
+                                contact: user.phone,
+                              },
+                              notes: {
+                                address: orderObject.address,
+                              },
+                              theme: {
+                                color: "#FFFFE3",
+                              },
+                            };
+                            const paymentObject = new window.Razorpay(options);
+                            paymentObject.open();
+                          } catch (err) {
+                            swal({
+                              title: "Please Refresh Your Web Page",
+                              text: "We sincerely apologize for this inconvenience",
+                              icon: "warning",
+                              buttons: true,
+                              dangerMode: true,
+                            });
+                          }
+                        }
+                      } catch (error) {
+                        if (error.response.data == "refresh") {
+                          swal({
+                            title: "Please Refresh Your Web Page",
+                            text: "We sincerely apologize for this inconvenience",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                          });
+                        } else {
+                          swal({
+                            title: "Product Out Of Stock",
+                            text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                          });
+                        }
                       }
                     }
+                  } else {
+                    addToast("Please Add From Address", {
+                      appearance: "error",
+                      autoDismiss: true,
+                    });
                   }
-                } else {
-                  addToast("Please Add From Address", {
-                    appearance: "error",
-                    autoDismiss: true,
-                  });
                 }
+
+                // // creating a new order
+                // const result = await axios.post("/api/user/razorpay");
+
+                // if (!result) {
+                //   alert("Server error. Are you online?");
+                //   return;
+                // }
+                // // Getting the order details back
+              } else {
+                swal({
+                  title: "Product Out Of Stock",
+                  text: "We sincerely apologize for this inconvenience. We've experienced an unusually high number of orders and have run out of inventory",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                });
               }
-
-              // // creating a new order
-              // const result = await axios.post("/api/user/razorpay");
-
-              // if (!result) {
-              //   alert("Server error. Are you online?");
-              //   return;
-              // }
-              // // Getting the order details back
             }
           } else {
             addToast("Please Select State", {

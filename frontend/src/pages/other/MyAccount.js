@@ -647,14 +647,14 @@ const MyAccount = ({ location, user }) => {
                                           <AccountBalanceWalletIcon
                                             style={{
                                               fontSize: "35px",
-                                              color: "red",
+                                              color: "#7284cd",
                                             }}
                                           />
                                           :{" "}
                                           <span
                                             style={{
                                               fontSize: "20px",
-                                              color: "green",
+                                              color: "black",
                                             }}
                                           >
                                             {" "}
